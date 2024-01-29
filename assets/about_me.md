@@ -1,54 +1,40 @@
 # Welcome to My Personal Website!
 
-Hello and welcome to my personal website! I'm thrilled to have you here. Allow
-me to introduce myself and share a bit about my passions and interests in the
-world of programming.
+Hi there! I'm Amit, a budding computer engineering student at the National
+University of Singapore. My journey in this field is driven by a deep passion
+for understanding the intricate layers of software systems and the art of
+pragmatic engineering. The world of computer science is vast and endlessly
+fascinating – so much so that I often find myself thinking about the sheer
+volume of knowledge out there that I might never fully explore. But that's the
+beauty of it, isn't it?
 
-## About Me
-Hello! I'm Amit, a Computer Engineering student at the National University of 
-Singapore (NUS). Currently, I work as an IoT Software Developer at Kisi, but 
-I'm taking a leave of absence this semester to focus on my interview 
-preparations.
+In this vast sea of information, every bit I learn is a treasure. Whether it's a
+new programming language, a complex algorithm, or the latest development in AI,
+each discovery fuels my curiosity and eagerness to learn more. I believe in the
+power of sharing knowledge – what I pick up along my path, I want to put out
+there for others. The idea is simple: as I walk this journey, I lay down a trail
+of insights and learnings, hoping that others can sprint where I've strolled.
 
-## Rust
+What Excites Me in Work
 
-Rust has quickly become one of my favorite programming languages. Its focus on
-memory safety, fearless concurrency, and performance optimization truly sets it
-apart. I enjoy harnessing the power of Rust to build robust and efficient
-software solutions.
+I thrive on tackling 'cool problems' – those that make me pause and go, “Wow,
+that's something!” What makes a problem cool? Well, it's a bit of a mixed bag
+for me. I'm relatively new to this field, so I'm always pleasantly surprised by
+what captures my imagination. Here are a few things that have sparked my
+interest:
 
-## Compilers
+Computer Science at its Core: Anything that roots deeply in or cleverly applies
+computer science principles catches my attention. Pushing My Boundaries: I love
+challenges that stretch my knowledge, be it learning something entirely new or
+applying recently acquired concepts. Impactful Work: Whether it's making life
+easier for fellow developers and software users or contributing to broader
+social or global issues, I'm all in. Open Source Contributions: There's
+something genuinely exhilarating about contributing to the open-source
+community. Balancing Act: I appreciate work that mixes grand, complex problems
+with achievable, quick wins. Smart People, Great Environment
 
-Compilers have always fascinated me. The way they transform human-readable code
-into machine-executable instructions is truly magical. Exploring the
-intricacies of compiler design and learning about different optimization
-techniques has been a captivating endeavor.
-
-## Linux and OSS
-
-Linux is more than just an operating system for me; it's a philosophy. The
-freedom, flexibility, and collaborative nature of the open-source ecosystem
-resonate deeply with my values. I take immense pleasure in working with Linux,
-understanding its inner workings, and leveraging its power to create impactful
-projects.
-
-## Vim
-
-Vim is my preferred text editor, and it has become an essential part of my
-programming workflow. The endless customization options, powerful plugins, and
-efficient editing capabilities make it a tool I can't live without. I enjoy
-diving into Vim's intricacies and continuously discovering new ways to improve
-my productivity.
-
-## Join Me on This Journey
-
-I am excited to share my knowledge, experiences, and projects with you through
-this website. Together, we can explore the exciting world of Rust, compilers,
-Linux, and Vim. Whether you're a fellow enthusiast or just curious to learn
-more, I hope you'll find something valuable here.
-
-Feel free to browse through my blog posts, projects, and resources. Don't
-hesitate to reach out if you have any questions, suggestions, or if you'd
-simply like to connect. Let's embark on this coding adventure together!
-
-Happy coding, Robert Junkins
+For me, the people I work with are as important as the work itself. I gravitate
+towards smart, insightful individuals who are also pleasant and collaborative. I
+don’t have a strict preference for a specific type or size of organization –
+what matters most is being surrounded by mentors who are both empowering and
+supportive.
