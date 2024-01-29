@@ -8,33 +8,30 @@ fascinating – so much so that I often find myself thinking about the sheer
 volume of knowledge out there that I might never fully explore. But that's the
 beauty of it, isn't it?
 
-In this vast sea of information, every bit I learn is a treasure. Whether it's a
-new programming language, a complex algorithm, or the latest development in AI,
-each discovery fuels my curiosity and eagerness to learn more. I believe in the
-power of sharing knowledge – what I pick up along my path, I want to put out
-there for others. The idea is simple: as I walk this journey, I lay down a trail
-of insights and learnings, hoping that others can sprint where I've strolled.
+## About Me
+Hello! I'm Amit, a Computer Engineering student at the National University of 
+Singapore (NUS).
 
-What Excites Me in Work
+Currently, I work as a/an:
 
-I thrive on tackling 'cool problems' – those that make me pause and go, “Wow,
-that's something!” What makes a problem cool? Well, it's a bit of a mixed bag
-for me. I'm relatively new to this field, so I'm always pleasantly surprised by
-what captures my imagination. Here are a few things that have sparked my
-interest:
+- IoT Software Developer at [Kisi](https://www.getkisi.com/about), a security company.
 
-Computer Science at its Core: Anything that roots deeply in or cleverly applies
-computer science principles catches my attention. Pushing My Boundaries: I love
-challenges that stretch my knowledge, be it learning something entirely new or
-applying recently acquired concepts. Impactful Work: Whether it's making life
-easier for fellow developers and software users or contributing to broader
-social or global issues, I'm all in. Open Source Contributions: There's
-something genuinely exhilarating about contributing to the open-source
-community. Balancing Act: I appreciate work that mixes grand, complex problems
-with achievable, quick wins. Smart People, Great Environment
+Previously, I've had stints as a/an:
 
-For me, the people I work with are as important as the work itself. I gravitate
-towards smart, insightful individuals who are also pleasant and collaborative. I
-don’t have a strict preference for a specific type or size of organization –
-what matters most is being surrounded by mentors who are both empowering and
-supportive.
+- DevOps Engineer intern at [HydraX](https://www.hydrax.io/about/), a fintech startup
+- Fullstack intern at a stealth-mode startup
+
+I'm passionate about the inner workings of software systems and pragmatic
+engineering!
+
+## Join Me on This Journey
+
+In this vast sea of information, every bit I learn is a treasure. Each discovery
+fuels my curiosity and eagerness to learn more. I believe in the power of
+sharing knowledge – what I pick up along my path, I want to put out there for
+others. The idea is simple: as I walk this journey, I lay down a trail of insights
+and learnings, and I hope that others can run where I've walked.
+
+Feel free to browse through my blog posts, projects, and resources. Hope you 
+find something valuable here. Don't hesitate to reach out if you have any
+questions, suggestions, or if you'd simply like to connect!
