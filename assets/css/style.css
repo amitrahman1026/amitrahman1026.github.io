@@ -328,7 +328,7 @@ li::before{
     color: var(--foam);
 }
 li{
-    margin-left: 20px;
+    margin-left: 30px;
     color: var(--iris);
 }
 
