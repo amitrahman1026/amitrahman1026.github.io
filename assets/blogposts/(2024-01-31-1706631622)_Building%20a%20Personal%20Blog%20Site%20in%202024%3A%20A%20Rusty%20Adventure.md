@@ -57,6 +57,10 @@ life. Should have really picked a struggle, but hey, I'm here now.
 - **Markdown to HTML?** Less difficult than I expected, thanks to the
   pulldown-cmark crate.
 
+```
+Testing code block
+```
+
 ### Parting Thoughts
 
 Building this site was like a wild ride through the amusement park of web
