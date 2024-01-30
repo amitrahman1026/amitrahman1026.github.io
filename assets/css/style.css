@@ -123,7 +123,7 @@ i, em {
 
 b, strong {
     font-weight: 600;
-    color: var(--subtle);
+    color: var(--love);
 }
 
 h1::before {
@@ -350,6 +350,7 @@ ul{
     list-style: none;
     padding: 0px;
 }
+
 li::before{
     content: "~ ";
     color: var(--foam);
@@ -357,7 +358,8 @@ li::before{
 li{
     margin-left: 30px;
     font-family: 'MesloLGLDZNerdFont';
-    color: var(--iris);
+    font-size: 14px;
+    color: var(--pine);
 }
 
 hr{
