@@ -1,7 +1,6 @@
 use yew::prelude::*;
 use web_sys::window;
 use pulldown_cmark::{html, Options, Parser};
-use std::rc::Rc;
 
 #[derive(Properties, PartialEq)]
 struct CallbackHelperProps {
@@ -13,36 +12,31 @@ pub struct UrlProps {
     pub url: String,
 }
 
-#[function_component(CallbackHelper)]
-fn callback_helper(props: &CallbackHelperProps) -> Html {
-    props.helper.emit(String::from(""));
-    html! { <></> }
-}
-
 #[function_component(MarkdownComponent)]
 pub fn markdown_component(props: &UrlProps) -> Html {
     let inner = use_state(|| "Loading markdown file...".to_owned());
     let url = process_request(&props.url);
-    let url_rc = Rc::new(url);
 
-    let get_markdown = {
+    {
         let inner = inner.clone();
-        let url_rc = url_rc.clone();
-        Callback::from(move |_| {
-            let url_rc_clone = url_rc.clone();
-            let inner_clone = inner.clone();
+        let url = url.clone();
+        use_effect_with_deps(move |_| {
             wasm_bindgen_futures::spawn_local(async move {
-                if let Err(e) = fetch_and_process_markdown(&url_rc_clone, &inner_clone).await {
-                    println!("Error fetching markdown: {}", e);
+                match fetch_and_process_markdown(&url, &inner).await {
+                    Ok(_) => {}
+                    Err(e) => {
+                        web_sys::console::log_1(&format!("Error fetching markdown: {:?}", e).into());
+                    }
                 }
             });
-        })
-    };
+            || ()
+        }, ());
+    }
+
 
     let test = Html::from_html_unchecked((*inner).clone().into());
     html! {
         <div>
-            <CallbackHelper helper={get_markdown} />
             {test}
         </div>
     }
