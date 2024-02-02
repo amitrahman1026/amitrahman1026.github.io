@@ -65,7 +65,8 @@ fn markdown_to_html(markdown: &str) -> String {
 
     let mut html_output = String::new();
     html::push_html(&mut html_output, parser);
-
+    // add lazy loading to images
+    html_output = html_output.replace("<img", "<img loading=\"lazy\" ");
     html_output
 }
 
