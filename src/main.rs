@@ -86,11 +86,30 @@ fn App() -> Html {
                     body.class_list()
                         .add_1(&stored_theme)
                         .expect("unable to add class");
+                    // Set the highlight.js theme
+                    let highlight_style = document
+                        .get_element_by_id("highlight-style")
+                        .expect("highlight-style element not found");
+                    let highlight_theme = if stored_theme == "dark-theme" {
+                        "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/night-owl.min.css"
+                    } else {
+                        "//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.2/build/styles/github.min.css"
+                    };
+                    highlight_style
+                        .set_attribute("href", highlight_theme)
+                        .expect("Failed to set highlight.js theme");
                 } else {
                     // Apply default theme if none is stored
                     body.class_list()
                         .add_1("light-theme")
                         .expect("unable to add class");
+                    // Set default highlight.js theme
+                    let highlight_style = document
+                        .get_element_by_id("highlight-style")
+                        .expect("highlight-style element not found");
+                    highlight_style
+                    .set_attribute("href", "//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.2/build/styles/github.min.css")
+                    .expect("Failed to set default highlight.js theme");
                 }
 
                 || ()
@@ -131,6 +150,19 @@ fn App() -> Html {
             body.class_list()
                 .add_1(new_theme)
                 .expect("unable to add class");
+            // Set highlight.js theme
+            let highlight_style = document
+                .get_element_by_id("highlight-style")
+                .expect("highlight-style element not found");
+            let new_highlight_theme = if new_theme == "dark-theme" {
+                "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/night-owl.min.css"
+                // "//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.2/build/styles/monokai-sublime.min.css"
+            } else {
+                "//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.2/build/styles/github.min.css"
+            };
+            highlight_style
+                .set_attribute("href", new_highlight_theme)
+                .expect("Failed to set highlight.js theme");
         })
     };
 
