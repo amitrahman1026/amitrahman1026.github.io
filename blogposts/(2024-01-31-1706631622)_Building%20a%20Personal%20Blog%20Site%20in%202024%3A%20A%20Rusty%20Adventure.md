@@ -57,8 +57,18 @@ life. Should have really picked a struggle, but hey, I'm here now.
 - **Markdown to HTML?** Less difficult than I expected, thanks to the
   pulldown-cmark crate.
 
-```
-Testing code block
+```python
+# Testing code syntax highlighting
+import os
+
+def foo():
+    return True
+
+def bar():
+    foo()
+"""
+Multi-line comments test
+"""
 ```
 
 ### Parting Thoughts
