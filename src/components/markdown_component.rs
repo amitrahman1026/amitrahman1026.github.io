@@ -1,4 +1,6 @@
 use yew::prelude::*;
+use wasm_bindgen::JsCast;
+use web_sys::{HtmlScriptElement, Document};
 use web_sys::window;
 use pulldown_cmark::{html, Options, Parser};
 
@@ -47,8 +49,31 @@ async fn fetch_and_process_markdown(url: &str, inner: &UseStateHandle<String>) -
     let content = reqwest::get(url).await?.text().await?;
     let html_content = markdown_to_html(&content);
     inner.set(html_content);
+    if let Some(window) = web_sys::window() {
+        if let Some(document) = window.document() {
+            append_highlight_script(&document);
+        }
+    }
     Ok(())
 }
+
+fn append_highlight_script(document: &Document) {
+    let script = document.create_element("script").expect("Failed to create script element");
+    let script_element = script.dyn_into::<HtmlScriptElement>().expect("Failed to cast to HtmlScriptElement");
+
+    script_element.set_inner_html(r#"
+        setTimeout(() => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+            console.log('Script executed');
+        }, 0);
+    "#);
+
+    document.body().expect("No body element").append_child(&script_element).expect("Failed to append script element");
+}
+
+
 
 fn markdown_to_html(markdown: &str) -> String {
     let mut options = Options::empty();
@@ -63,6 +88,7 @@ fn markdown_to_html(markdown: &str) -> String {
     html_output = html_output.replace("<img", "<img loading=\"lazy\" ");
     html_output
 }
+
 
 fn process_request(filename: &str) -> String {
     if let Some(window) = window() {
