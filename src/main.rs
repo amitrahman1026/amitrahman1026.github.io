@@ -183,7 +183,7 @@ fn App() -> Html {
                     <label for="theme-switch" class="slider"></label>
                 </div>
             </div>
-            <HashRouter basename="/personal-site">
+            <HashRouter basename="/">
                 <Switch<Route> render={switch} />
             </HashRouter>
             <br/>
