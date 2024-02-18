@@ -24,23 +24,22 @@ dynamic front-end experience, and utilizes markdown for content management.
 To clone and run this project locally for development or personal use, follow
 these steps:
 
-### Setup
+### Setup and Development
 
 1. **Clone the repository:**
+
    ```bash
-   git clone https://github.com/amitrahman1026/personal-site.git
+   git clone https://github.com/amitrahman1026/amitrahman1026.github.io.git
    ```
+
 1. Navigate to the project directory:
+
    ```bash
    cd personal-site
    ```
 
-## Development
-
-### Install Dependencies:
-
-1. Ensure Rust and wasm32-unknown-unknown target are installed. Install Trunk
-   using Rust's package manager:
+1. Install dependencies - Ensure Rust and wasm32-unknown-unknown target are
+   installed. Install Trunk using Rust's package manager:
 
    ```bash
    cargo install trunk
@@ -54,7 +53,7 @@ these steps:
    make run
    ```
 
-This serves the site at http://localhost:8080/personal-site.
+This serves the site at http://localhost:8080/
 
 ### Create New Blog Posts
 
