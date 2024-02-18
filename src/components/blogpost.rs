@@ -10,7 +10,7 @@ pub struct Props {
 #[function_component(Blogpost)]
 pub fn blogpost(props: &Props) -> Html{
     let encoded_title = utf8_percent_encode(&props.title, NON_ALPHANUMERIC).to_string();
-    let post_url = format!("/personal-website/blogposts/{}", encoded_title);
+    let post_url = format!("/personal-site/blogposts/{}", encoded_title);
 
     html! {
         <div>

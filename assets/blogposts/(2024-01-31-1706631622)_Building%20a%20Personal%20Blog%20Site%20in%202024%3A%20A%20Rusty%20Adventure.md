@@ -156,7 +156,7 @@ AM.
 ### A Tale of Unintended Recursion
 
 <div style="text-align: center;">
-    <img src="/personal-website/images/1_ozymandias.png" style="width: 50%;" alt="Relevant xkcd">
+    <img src="/personal-site/images/1_ozymandias.png" style="width: 50%;" alt="Relevant xkcd">
 </div>
 
 In my quest to make this site as dynamic as possible for something born outta

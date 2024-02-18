@@ -54,7 +54,7 @@ these steps:
    make run
    ```
 
-This serves the site at http://localhost:8080/personal-website.
+This serves the site at http://localhost:8080/personal-site.
 
 ### Create New Blog Posts
 

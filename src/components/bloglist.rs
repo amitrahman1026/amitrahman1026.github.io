@@ -3,7 +3,7 @@ use crate::components::markdown_component::MarkdownComponent as Markdown;
 	
 #[function_component(Bloglist)]
 pub fn bloglist() -> Html{
-    let url = "/personal-website/bloglist.md";
+    let url = "/personal-site/bloglist.md";
     html! {
         <div>
            <Markdown url={url} /> 

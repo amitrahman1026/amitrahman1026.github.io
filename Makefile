@@ -1,8 +1,8 @@
 run: markdown
-	trunk serve --public-url personal-website --watch ./src
+	trunk serve --public-url personal-site --watch ./src
 
 build: markdown
-	trunk build --release --public-url personal-website
+	trunk build --release --public-url personal-site
 
 install:
 	rustup target add wasm32-unknown-unknown
