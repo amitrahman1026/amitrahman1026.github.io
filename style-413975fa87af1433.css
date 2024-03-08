@@ -241,7 +241,7 @@ pre {
 }
 
 code {
-    display: block;
+    display: inline;
     white-space: pre;
     line-height: 1.5;
 }
