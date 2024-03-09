@@ -1,0 +1,168 @@
+\documentclass{resume} % Use the custom resume.cls style
+
+\usepackage[left=0.4 in,top=0.5in,right=0.4 in,bottom=0.4in]{geometry} % Document margins
+\usepackage{setspace}
+\usepackage{hyperref}
+\RequirePackage{fontawesome}
+\setstretch{0}
+\newcommand{\tab}[1]{\hspace{.2667\textwidth}\rlap{#1}} 
+\newcommand{\itab}[1]{\hspace{0em}\rlap{#1}}
+
+
+%----------------------------------------------------------------------------------------
+% Contact Information
+%----------------------------------------------------------------------------------------
+\name{\href{https://amitrahman.me}{Amit Rahman \small{\faExternalLink}}}
+\address{
+\href{mailto:amit.amit.rahman@gmail.com}{amit.amit.rahman@gmail.com}
+\\ \href{https://www.github.com/amitrahman1026}{github.com/amitrahman1026} \\
+    \href{https://www.linkedin.com/in/amitrahman1026}{linkedin.com/in/amitrahman1026}
+    % \\ +1 (551) 998-3381
+    \\ +65 9295 5950
+    } 
+
+
+\begin{document}
+
+% %----------------------------------------------------------------------------------------
+% % Professional Summary
+% %----------------------------------------------------------------------------------------
+
+% \begin{rSection}{Professional Summary}
+
+% {A professional summary stating your best-selling points based on the job description e.g. I am a Computer Science sophomore at University XXX with strong fundamentals in XXX looking to XXX.}
+% \end{rSection}
+
+%----------------------------------------------------------------------------------------
+% Work authorization for the US, comment out if needed, try to stick to one line
+%----------------------------------------------------------------------------------------
+% \textbf{Work Authorization: Eligible for Academic Training (J-1)}
+% \textbf{Internship Availability: 20 Jan 2024 to 14 Aug 2024}
+
+%----------------------------------------------------------------------------------------
+% Education
+%----------------------------------------------------------------------------------------
+
+\begin{rSection}{Education}
+\textbf{Computer Engineering, Bachelor of Engineering (Honours), 
+National University of Singapore}
+\hfill {2025}
+% \textbf{Winter School, Korea University, Korea}
+% \hfill {2022}
+\textnormal{
+    \begin{itemize}
+        \item \textbf{NUS Engineering Scholar} - Awarded to 50 engineering students in faculty cohort of 1500
+        % \hfill \textit{(Penultimate)}
+        % \item Work Authorization: Singapore Citizen on J-1 visa; eligible for the H-1B1 US visa or HPI UK visa with no petition required
+    % \item \textbf{Case Western Reserve University}, Fall 2023 Exchange
+    \end{itemize}
+}
+\end{rSection}
+
+%----------------------------------------------------------------------------------------
+% Work Experience
+%----------------------------------------------------------------------------------------
+
+\begin{rSection}{Work Experience}
+\textbf{Software Engineer} \hfill Feb 2024 - Present \\
+\href{https://www.getkisi.com/}{Kisi Inc.\faExternalLink}  \textnormal{\textit{
+Cloud-Based Security Platform} | C, C++, MQTT, lwIP, GCP, AWS IoT} \hfill
+\textit{Brooklyn, New York}
+\textnormal{
+    \begin{itemize}
+        \item Owned transition and IoT cloud platform integration for fleet of \textbf{50,000} access control IoT devices to a new proprietary IoT platform.
+        \item Developed support for inbound HTTP capabilities, contributing to network architecture redesign, for Microvisor (micro-controller hypervisor) running on STM32 \& FreeRTOS based firmware stack.
+        \item Executed on development of an in-house IP stack, focusing on UDP protocol implementation using the lwIP \& mbedTLS library to support critical local network features such as offline cache and feedback systems.
+        \item Provisioned Cloud Integration with GCP, designing a scalable server architecture using MQTT for continuous device-server communication, crucial for configuration management and security updates.
+        \item Established secure communication protocols for the IoT device ecosystem, including data encryption and signature validation processes to uphold network and data integrity.
+        % \item Conducted comprehensive \textbf{evaluation of AWS tools and capabilities}, orchestrating demos and developing a phased rollout plan for new hardware platforms.
+        \item Collaborated on development of a comprehensive testing strategy and documentation, ensuring high coverage and maintainability of the system architecture and cloud integration solutions.
+    \end{itemize}
+}
+\textbf{Fullstack Software Engineer Intern} \hfill Jul 2023 - Sep 2023 \\
+\href{alpha.coditioning.com}{Coditioning \faExternalLink} \textnormal{\textit{EduTech Startup} |Python, React, Node.js, PostgreSQL} \hfill
+\textit{Remote}
+\textnormal{
+    \begin{itemize}
+        \item Owned system design \& development of a code execution engine, tailored for Coditioning's e-learning platform.
+        \item Designed a RESTful OpenAPI Schema for a Python-centric backend, laying down foundation for seamless code submission and retrieval, as well as historic data access.
+        \item Devised a suite of intuitive API endpoints to empower frontend functionalities: code submissions, status verifications, result acquisitions, and past submission access.
+        \item Overcame Heroku's 30-second response time constraints utilizing callback-enabled endpoints for clients to poll efficiently, averting timeouts and enhancing initial prototype's responsiveness.
+    \end{itemize}
+}
+\textbf{DevOps Intern} \hfill May 2023 - Aug 2023 \\
+\href{https://www.hydrax.io/
+}{HydraX \faExternalLink }\textnormal{\textit{FinTech SaaS Startup} |TypeScript, Python, AWS, Kubernetes, Prometheus, Grafana, SQL} \hfill
+\textit{Singapore}
+\textnormal{
+    \begin{itemize}
+        \item Deployed \& implemented internal tools in Elastic Kubernetes Service, enabling cost analysis and optimization for the company's products, increasing granularity from cluster to container level.
+        % \item Created custom Grafana dashboards using promQL for cost monitoring and reporting.
+        \item Identified and handled duplication in log ingestion monitoring stack and reduced cloud storage costs in various clusters up to 39.8\%. 
+        \item Migrated AWS resources to CDK in the infrastructure pipeline for private digital exchanges in development clusters, for increasing automation coverage of CI/CD pipeline.
+        % \item Monitored security vulnerabilities for new test cluster images patching and upgrading deprecated packages.
+        % \item Enhanced Grafana automation stack, integrating continuous deployment for versioned Grafana dashboards in new nodes, with promQL hooks.
+    \end{itemize}
+}
+
+\textbf{Venture Capital Intern} \hfill Jan 2021 - Mar 2021 \\
+\href{https://www.k3ventures.com/}{K3 Ventures \faExternalLink} \textnormal{\textit{Venture Capital Family Office} |Python, Pandas, NumPy, Bs4} \hfill
+\textit{Singapore}
+\textnormal{
+    \begin{itemize}
+        \item Scraped and svisualized data from SEC EDGAR Filing API and identified IPOs stock price trends around lock ups.
+    \end{itemize}
+}
+\end{rSection}
+
+%----------------------------------------------------------------------------------------
+% Projects
+%----------------------------------------------------------------------------------------
+
+\begin{rSection}{Projects}
+\begin{itemize}
+    \item \href{https://github.com/amitrahman1026/portsniff}{\textbf{Port Scanning networking tool in Rust} \faExternalLink } \textnormal{|Rust, Tokio}. \hfill Mar 2024
+
+    \item \href{https://amitrahman.me}{\textbf{Rust static blog website} \faExternalLink } \textnormal{|Rust, Yew, Pulldown cmark, Github Actions}. \hfill Jan 2024
+
+    \item \href{https://github.com/JothamWong/Procastinot}{\textbf{Screen time limit Android App} \faExternalLink } \textnormal{Kotlin, Jetpack Compose}. \hfill Jan 2024
+
+    \item \href{https://github.com/amitrahman1026/my6502}{\textbf{6502 Microprocessor Emulator C++ Library} \faExternalLink } \textnormal{|C/C++, ASM, CMake, Boost}. \hfill Dec 2023
+
+    \item \href{https://github.com/amitrahman1026/search-rescue-bot}{\textbf{Search and Rescue Robot Vehicle} \faExternalLink } \textnormal{|C/C++, ROS, Linux, Arduino, Baremetal, UART, TLS}. \hfill Oct 2022
+
+    \item \href{https://github.com/amitrahman1026/ip}{\textbf{Timetable Manager CLI tool} \faExternalLink } \textnormal{|Java, Gradle, JUnit, MVC, Github Actions}. \hfill Oct 2022
+
+    % \item \href{https://github.com/amitrahman1026/FPGA-Morse-Code}{\textbf{Morse Code Flashcard on FPGA Board} \faExternalLink } \textnormal{Verilog} \hfill Jul 2023
+\end{itemize}
+\end{rSection}
+
+
+%----------------------------------------------------------------------------------------
+% Skills
+%----------------------------------------------------------------------------------------
+
+\begin{rSection}{Skills}
+\begin{tabular}{ @{} >{\bfseries}l @{\hspace{6ex}} l }
+Programming Languages & \textnormal{C/C++, Python, Rust, Kotlin, TypesScript, JavaScript, Verilog, Bash }\\
+Technologies & \textnormal{ROS, React, AWS, Kubernetes, Docker, Prometheus, CMake, Linux} \\
+\end{tabular}\\
+\end{rSection}
+
+%----------------------------------------------------------------------------------------
+% Awards
+%----------------------------------------------------------------------------------------
+
+\begin{rSection}{Awards \& Activities}
+Hackathons \& Competitions: \textnormal{NUS Hack\&Roll (2024) Solana Metacamp Hackathon (2022), NUS Greyhats Capture The Flag (2023)} \\
+Extra Curricular Activites: \textnormal{Residential College 4 House Committee (2021-2023), Developers Club (2021-2023)}
+% \begin{itemize}
+% \item NUS Hack\&Roll  \hfill {Jan 2024}
+% \item Solana Metacamp Hackathon  \hfill {Dec 2022}
+% % \item NUSGreyhats Welcome Capture The Flag 2022  \hfill {Aug 2022}
+% \end{itemize}
+% % \textbf{Internship Availability: 06 May 2024 to 14 Aug 2024}
+\end{rSection}
+
+%----------------------------------------------------------------------------------------
+\end{document}  
