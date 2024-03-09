@@ -15,6 +15,7 @@ new-post:
 	sh ./scripts/new_blogpost.sh
 
 deploy:
+	cp CNAME dist/CNAME
 	git push -u origin main
 	git push origin `git subtree split --prefix dist main`:gh-pages --force-with-lease
 
