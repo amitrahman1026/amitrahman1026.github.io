@@ -17,5 +17,5 @@ new-post:
 deploy:
 	cp CNAME dist/CNAME
 	git push -u origin main
-	git push origin `git subtree split --prefix dist main`:gh-pages --force-with-lease
+	git subtree push --prefix dist origin gh-pages
 
