@@ -19,7 +19,7 @@ Currently, I work as a/an:
 Previously, I've had stints as a/an:
 
 - DevOps Engineer intern at [HydraX](https://www.hydrax.io/about/), a fintech startup
-- Fullstack intern at a stealth-mode startup
+- Fullstack intern at an ed-tech startup
 
 I'm passionate about the inner workings of software systems and pragmatic
 engineering!
