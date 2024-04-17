@@ -8,38 +8,37 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
     permissions:
       contents: write
-
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
+      
     - name: Set up Rust
       uses: dtolnay/rust-toolchain@stable
       with:
         targets: wasm32-unknown-unknown
         toolchain: stable
-
+        
     - name: Install Trunk
       uses: jetli/trunk-action@v0.5.0
       with:
         version: 'latest'
-
+        
     - name: Build website
       run: |
         chmod +x ./scripts/build_md_lists.sh
         ./scripts/build_md_lists.sh
         trunk build --release
-
+        
     - name: Create CNAME file
       run: echo "amitrahman.me" > ./dist/CNAME
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
-        publish_branch: gh-pages
-        force_orphan: true
+        path: ./dist
+        
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
