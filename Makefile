@@ -14,8 +14,3 @@ markdown:
 new-post:
 	sh ./scripts/new_blogpost.sh
 
-deploy:
-	cp CNAME dist/CNAME
-	git push -u origin main
-	git subtree push --prefix dist origin gh-pages
-

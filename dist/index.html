@@ -3,7 +3,7 @@
         <link id="highlight-style" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/ros-pine-moon.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
         
-        <link rel="stylesheet" href="/style-413975fa87af1433.css" integrity="sha384-33fwDsRdjLhAn0HR07XxRbXZg_Zghf9Tdc9YZk54tC-k5GgArL8AX4CQfXGisMZR">
+        <link rel="stylesheet" href="/style-413975fa87af1433.css" integrity="sha384-33fwDsRdjLhAn0HR07XxRbXZg/Zghf9Tdc9YZk54tC+k5GgArL8AX4CQfXGisMZR">
         
         
         
@@ -11,13 +11,13 @@
         
         <title>Amit Rahman</title>
     
-<link rel="preload" href="/personal-site-85fd0c41554f5643_bg.wasm" as="fetch" type="application/wasm" crossorigin="anonymous" integrity="sha384-0Xv-hOu0dymP65mZlxJyV5hsAx47OAabWimElgx2nORUe1yNVLZzGle-nrHWh6iR">
-<link rel="modulepreload" href="/personal-site-85fd0c41554f5643.js" crossorigin="anonymous" integrity="sha384--LD5tU86QN6LdgjAWESMq08u1WDX6Bq6fnCY6oD0g4hilY2dZfHS3F3A88sns_BZ"></head>
+<link rel="preload" href="/personal-site-95457d02755025be_bg.wasm" crossorigin="anonymous" integrity="sha384-R6L5XjszQLlA/dXxRXWemSWj7WhrzHdYePK1Z9FHwJJU6M0Ig3taG/vzDFEs/RA4" as="fetch" type="application/wasm">
+<link rel="modulepreload" href="/personal-site-95457d02755025be.js" crossorigin="anonymous" integrity="sha384-2yK9+dPhizyP4viyFe95FG21IIDZtF2Er+4gFkmbb/cOpd+pbP8YAnJjR4o2rJs9"></head>
 <body>
 
 <script type="module">
-import init, * as bindings from '/personal-site-85fd0c41554f5643.js';
-init('/personal-site-85fd0c41554f5643_bg.wasm');
+import init, * as bindings from '/personal-site-95457d02755025be.js';
+init('/personal-site-95457d02755025be_bg.wasm');
 window.wasmBindings = bindings;
 
 </script><script>"use strict";
@@ -25,6 +25,7 @@ window.wasmBindings = bindings;
 (function () {
 
     const address = '{{__TRUNK_ADDRESS__}}';
+    const base = '{{__TRUNK_WS_BASE__}}';
     let protocol = '';
     protocol =
         protocol
@@ -32,7 +33,7 @@ window.wasmBindings = bindings;
             : window.location.protocol === 'https:'
                 ? 'wss'
                 : 'ws';
-    const url = protocol + '://' + address + '/_trunk/ws';
+    const url = protocol + '://' + address + base + '.well-known/trunk/ws';
 
     class Overlay {
         constructor() {
