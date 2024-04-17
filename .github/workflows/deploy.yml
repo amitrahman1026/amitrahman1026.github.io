@@ -38,11 +38,21 @@ jobs:
     - name: Create CNAME file
       run: echo "amitrahman.me" > ./dist/CNAME
       
+    - name: Archive artifact
+      run: |
+        tar \
+          --dereference --hard-dereference \
+          --directory "${{ github.workspace }}/dist" \
+          -cvf "${{ runner.temp }}/artifact.tar" \
+          --exclude=.git \
+          --exclude=.github \
+          .
+      
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: github-pages
-        path: ./dist
+        path: ${{ runner.temp }}/artifact.tar
         retention-days: 1
         
     - name: Deploy to GitHub Pages
