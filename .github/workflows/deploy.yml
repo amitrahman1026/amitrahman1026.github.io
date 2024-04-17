@@ -1,0 +1,35 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        rustup target add wasm32-unknown-unknown
+        cargo install --locked trunk
+
+    - name: Build website
+      run: |
+        sh ./scripts/build_md_lists.sh
+        trunk build --release
+
+    - name: Create CNAME file
+      run: echo "amitrahman.me" > ./dist/CNAME
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
+        publish_branch: gh-pages
+        force_orphan: true
