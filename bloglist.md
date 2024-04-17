@@ -1,0 +1,4 @@
+# Blog
+- [Exploring CPP Lambdas](#/blogposts/(2024-03-24-1711305012)_Exploring%20CPP%20Lambdas.md) <span style="float: right;"></span>
+- [Intro to Embedded Scripting](#/blogposts/(2024-03-04-1709611744)_Intro%20to%20Embedded%20Scripting.md) <span style="float: right;"></span>
+- [Building a Personal Blog Site in 2024: A Rusty Adventure](#/blogposts/(2024-01-31-1706631622)_Building%20a%20Personal%20Blog%20Site%20in%202024%3A%20A%20Rusty%20Adventure.md) <span style="float: right;"></span>
