@@ -69,13 +69,7 @@ will be created for you.
 
 ## Deployment
 
-Deploy your site to GitHub Pages or your preferred hosting solution. A GitHub
-Actions CI/CD pipeline can automate this process, or use the provided Makefile
-script:
-
-```bash
-make deploy
-```
+The deployment's via github actions now!
 
 ### Contributing
 
