@@ -10,9 +10,6 @@ permissions:
   pages: write
   id-token: write
 
-env:
-  RUST_LOG: debug
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -37,6 +34,7 @@ jobs:
         chmod +x ./scripts/build_md_lists.sh
         ./scripts/build_md_lists.sh
         trunk build --release
+        cat ./dist/index.html
         
     - name: Create CNAME file
       run: echo "amitrahman.me" > ./dist/CNAME
