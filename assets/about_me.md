@@ -9,12 +9,13 @@ volume of knowledge out there that I might never fully explore. But that's the
 beauty of it, isn't it?
 
 ## About Me
-Hello! I'm Amit, a Computer Engineering student at the National University of 
+Hello! I'm Amit, a Computer Engineering student at the National University of
 Singapore (NUS).
 
 Currently, I work as a/an:
 
-- IoT Software Developer at [Kisi](https://www.getkisi.com/about), a security company.
+- Software Engineer on the IoT team at [Kisi](https://www.getkisi.com/about),
+a security company.
 
 Previously, I've had stints as a/an:
 
@@ -32,6 +33,6 @@ sharing knowledge – what I pick up along my path, I want to put out there for
 others. The idea is simple: as I walk this journey, I lay down a trail of insights
 and learnings, and I hope that others can run where I've walked.
 
-Feel free to browse through my blog posts, projects, and resources. Hope you 
+Feel free to browse through my blog posts, projects, and resources. Hope you
 find something valuable here. Don't hesitate to reach out if you have any
 questions, suggestions, or if you'd simply like to connect!

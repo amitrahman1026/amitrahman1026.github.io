@@ -7,9 +7,15 @@ pub fn projects() -> Html {
             <h1>{ "Projects" }</h1>
 
             <div class="project">
+                <a href="https://github.com/amitrahman1026/redis-oxide">{"Database Server Library"}</a>
+                <p>{"Rust"}</p>
+                <p>{"An implmentation of a distributed RESP2 compliant in-memory database with distributed transactions support ... and more features to come! 🚧 WIP 🚧 "}</p>
+            </div>
+
+            <div class="project">
                 <a href="https://github.com/JothamWong/Procastinot" target="_blank">{"Screen Time Limit Android App"}</a>
                 <p>{"Kotlin | Jetpack Compose"}</p>
-                <p>{"An innovative Android application designed to help users manage their screen time effectively using Kotlin and Jetpack Compose. Features include OS-agnostic CLI-based university timetable & academic planner with persistent local storage."}</p>
+                <p>{"An innovative Android application designed to help users manage their screen time effectively using Kotlin and Jetpack Compose. Features include an overlay utility that locks scrolling on black listed apps."}</p>
             </div>
 
             <div class="project">
@@ -32,4 +38,3 @@ pub fn projects() -> Html {
         </div>
     }
 }
-
