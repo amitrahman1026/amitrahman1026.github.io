@@ -14,11 +14,11 @@ Singapore (NUS).
 
 Currently, I work as a/an:
 
-- Software Engineer on the IoT team at [Kisi](https://www.getkisi.com/about),
-a security company.
+- Rust Software Developer at [Grasshopper](https://grasshopperasia.com/about), a trading company.
 
 Previously, I've had stints as a/an:
 
+- IoT Software Developer at [Kisi](https://www.getkisi.com/about), a security company.
 - DevOps Engineer intern at [HydraX](https://www.hydrax.io/about/), a fintech startup.
 - Fullstack intern at an [Ed-tech startup](https://beta.coditioning.com/).
 
