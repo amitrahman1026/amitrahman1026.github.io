@@ -1,0 +1,58 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import { SITE, HOME } from "@consts";
+import Link from "@components/Link.astro";
+import SocialIcons from "@components/SocialIcons.astro";
+---
+
+<Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
+  <Container>
+    <aside data-pagefind-ignore>
+      <h1 class="animate font-semibold text-black dark:text-white">
+          About
+      </h1>
+      <div class="space-y-16">
+        <section>
+          <article class="space-y-4">
+            <span class="animate">
+              <p>
+                Hi I'm Amit, a software engineer in Hong Kong. I'm a recent graduate from the National University of Singapore, where I did my undergrad, majoring in Computer Engineering.
+              </p>
+              <p>
+                I currently work as a C++ developer on a core team at a hedge fund building trading systems to pay the bills.
+              </p>
+              <p>
+                I'm broadly interested in programming languages, compilers, distributed systems, and some light embedded work.
+              </p>
+              <p>
+                Previously worked at:
+              </p>
+              <ul class="list-disc list-inside ml-4 space-y-1">
+                <li>Rust Software Developer at <Link href="https://grasshopperasia.com/about">Grasshopper</Link></li>
+                <li><Link href="https://www.getkisi.com/about">Kisi</Link> (IoT)</li>
+                <li><Link href="https://www.hydrax.io/about/">HydraX</Link> (DevOps)</li>
+                <li>Ed-tech startup</li>
+              </ul>
+            </span>
+            <span class="animate">
+              <p>
+                My goal is to return to academia eventually, but I'm happy working in industry until 
+                the right research fit comes along.
+              </p>
+              <p>
+                <strong>Disclaimer:</strong> Everything I write here reflects my personal views and is not 
+                affiliated with my past or present employers. I focus on things I find interesting & problem spaces found in open source work or read about in papers.
+              </p>
+            </span>
+          </article>
+        </section>
+
+        <div class="block md:hidden">
+          <SocialIcons icon_size={'text-2xl'} />
+        </div>
+
+      </div>
+    </aside>
+  </Container>
+</Layout>

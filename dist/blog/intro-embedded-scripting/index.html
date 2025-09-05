@@ -1,0 +1,552 @@
+<!DOCTYPE html><html lang="en"> <head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>A</text></svg>"><meta name="generator" content="Astro v4.16.19"><!-- Canonical URL --><link rel="canonical" href="https://amitrahman.me/blog/intro-embedded-scripting/"><!-- Primary Meta Tags --><title>Having fun with nuts 🥜🌰🐿️ &amp; garbage collecting 🗑️ 🚮 | Amit Rahman</title><meta name="title" content="Having fun with nuts 🥜🌰🐿️ &#38; garbage collecting 🗑️ 🚮 | Amit Rahman"><meta name="description" content="An introduction to embedded scripting languages, exploring Squirrel and its garbage collection approach"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://amitrahman.me/blog/intro-embedded-scripting/"><meta property="og:title" content="Having fun with nuts 🥜🌰🐿️ &#38; garbage collecting 🗑️ 🚮 | Amit Rahman"><meta property="og:description" content="An introduction to embedded scripting languages, exploring Squirrel and its garbage collection approach"><meta property="og:image" content="https://amitrahman.me/blog-placeholder-1.jpg"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://amitrahman.me/blog/intro-embedded-scripting/"><meta property="twitter:title" content="Having fun with nuts 🥜🌰🐿️ &#38; garbage collecting 🗑️ 🚮 | Amit Rahman"><meta property="twitter:description" content="An introduction to embedded scripting languages, exploring Squirrel and its garbage collection approach"><meta property="twitter:image" content="https://amitrahman.me/blog-placeholder-1.jpg"><!-- PageFind --><link href="/pagefind/pagefind-ui.css" rel="stylesheet"><script src="/pagefind/pagefind-ui.js"></script><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script>
+  function init() {
+    preloadTheme();
+    onScroll();
+    animate();
+    updateThemeButtons();
+    addCopyCodeButtons();
+    setGiscusTheme();
+
+    const backToTop = document.getElementById("back-to-top");
+    backToTop?.addEventListener("click", (event) => scrollToTop(event));
+
+    const backToPrev = document.getElementById("back-to-prev");
+    backToPrev?.addEventListener("click", () => window.history.back());
+
+    const lightThemeButton = document.getElementById("light-theme-button");
+    lightThemeButton?.addEventListener("click", () => {
+      localStorage.setItem("theme", "light");
+      toggleTheme(false);
+      updateThemeButtons();
+    });
+
+    const darkThemeButton = document.getElementById("dark-theme-button");
+    darkThemeButton?.addEventListener("click", () => {
+      localStorage.setItem("theme", "dark");
+      toggleTheme(true);
+      updateThemeButtons();
+    });
+
+    const systemThemeButton = document.getElementById("system-theme-button");
+    systemThemeButton?.addEventListener("click", () => {
+      localStorage.setItem("theme", "system");
+      toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
+      updateThemeButtons();
+    });
+
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (event) => {
+        if (localStorage.theme === "system") {
+          toggleTheme(event.matches);
+        }
+      });
+
+    document.addEventListener("scroll", onScroll);
+  }
+
+  function updateThemeButtons() {
+    const theme = localStorage.getItem("theme");
+    const lightThemeButton = document.getElementById("light-theme-button");
+    const darkThemeButton = document.getElementById("dark-theme-button");
+    const systemThemeButton = document.getElementById("system-theme-button");
+
+    function removeActiveButtonTheme(button) {
+      button?.classList.remove("bg-black/5");
+      button?.classList.remove("dark:bg-white/5");
+    }
+
+    function addActiveButtonTheme(button) {
+      button?.classList.add("bg-black/5");
+      button?.classList.add("dark:bg-white/5");
+    }
+
+    removeActiveButtonTheme(lightThemeButton);
+    removeActiveButtonTheme(darkThemeButton);
+    removeActiveButtonTheme(systemThemeButton);
+
+    if (theme === "light") {
+      addActiveButtonTheme(lightThemeButton);
+    } else if (theme === "dark") {
+      addActiveButtonTheme(darkThemeButton);
+    } else {
+      addActiveButtonTheme(systemThemeButton);
+    }
+  }
+
+  function animate() {
+    const animateElements = document.querySelectorAll(".animate");
+
+    animateElements.forEach((element, index) => {
+      setTimeout(() => {
+        element.classList.add("show");
+      }, index * 100);
+    });
+  }
+
+  function onScroll() {
+    if (window.scrollY > 0) {
+      document.documentElement.classList.add("scrolled");
+    } else {
+      document.documentElement.classList.remove("scrolled");
+    }
+  }
+
+  function scrollToTop(event) {
+    event.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
+  function toggleTheme(dark) {
+    const css = document.createElement("style");
+
+    css.appendChild(
+      document.createTextNode(
+        `* {
+             -webkit-transition: none !important;
+             -moz-transition: none !important;
+             -o-transition: none !important;
+             -ms-transition: none !important;
+             transition: none !important;
+          }
+        `
+      )
+    );
+
+    document.head.appendChild(css);
+
+    if (dark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+
+    window.getComputedStyle(css).opacity;
+    document.head.removeChild(css);
+
+    setGiscusTheme();
+  }
+
+  function preloadTheme() {
+    const userTheme = localStorage.theme;
+
+    if (userTheme === "light" || userTheme === "dark") {
+      toggleTheme(true); // set default to dark theme
+    } else {
+      toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
+    }
+  }
+
+  function addCopyCodeButtons() {
+    let copyButtonLabel = "📋";
+    let codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    async function copyCode(codeBlock, copyButton) {
+      const codeText = codeBlock.innerText;
+      const buttonText = copyButton.innerText;
+      const textToCopy = codeText.replace(buttonText, "");
+
+      await navigator.clipboard.writeText(textToCopy);
+      copyButton.innerText = "✅";
+
+      setTimeout(() => {
+        copyButton.innerText = copyButtonLabel;
+      }, 2000);
+    }
+
+    for (let codeBlock of codeBlocks) {
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      const copyButton = document.createElement("button");
+      copyButton.innerText = copyButtonLabel;
+      copyButton.classList = "copy-code";
+
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.appendChild(copyButton);
+
+      codeBlock.parentNode.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+
+      copyButton?.addEventListener("click", async () => {
+        await copyCode(codeBlock, copyButton);
+      });
+    }
+  }
+
+  const setGiscusTheme = () => {
+    const giscus = document.querySelector(".giscus-frame");
+
+    const isDark = document.documentElement.classList.contains("dark");
+
+    if (giscus) {
+      const url = new URL(giscus.src);
+      url.searchParams.set("theme", isDark ? "dark" : "light");
+      giscus.src = url.toString();
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", () => init());
+  document.addEventListener("astro:after-swap", () => init());
+  preloadTheme();
+</script><link rel="stylesheet" href="/_astro/_slug_.vplggsDR.css"><script type="module" src="/_astro/hoisted.D1DYUQMr.js"></script></head> <body> <header data-astro-transition-persist="astro-l7r54iwe-1"> <div class="mx-auto max-w-screen-md px-3"> <div class="flex flex-wrap justify-between gap-y-2"> <a href="/" target="_self" class="inline-block decoration-black/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:decoration-white/30 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 hover:text-cyan-500 focus-visible:text-black dark:hover:text-orange-500 dark:focus-visible:text-white transition-colors duration-300 ease-in-out">  <div class="font-semibold text-lg"> Amit Rahman </div>  </a> <nav class="flex items-center gap-1 text-base"> <a href="/" target="_self" class="inline-block decoration-black/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:decoration-white/30 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 hover:text-cyan-500 focus-visible:text-black dark:hover:text-orange-500 dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> about </a> <span> / </span> <a href="/blog" target="_self" class="inline-block decoration-black/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:decoration-white/30 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 hover:text-cyan-500 focus-visible:text-black dark:hover:text-orange-500 dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> blog </a> <span> / </span> <a href="/contact" target="_self" class="inline-block decoration-black/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:decoration-white/30 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 hover:text-cyan-500 focus-visible:text-black dark:hover:text-orange-500 dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> contact </a> <span> / </span> <a href="/tags" target="_self" class="inline-block decoration-black/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:decoration-white/30 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 hover:text-cyan-500 focus-visible:text-black dark:hover:text-orange-500 dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> tags </a> <span> / </span> <div class="flex items-center gap-3"> <button id="magnifying-glass" aria-label="Search" class="flex items-center rounded border border-black/15 bg-neutral-100 px-2 py-1 text-xs transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:bg-neutral-900 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"> <svg height="16" stroke-linejoin="round" viewBox="0 0 16 16" width="16" style="color: currentcolor;"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 7C3.5 5.067 5.067 3.5 7 3.5C8.933 3.5 10.5 5.067 10.5 7C10.5 7.88461 10.1718 8.69256 9.63058 9.30876L9.30876 9.63058C8.69256 10.1718 7.88461 10.5 7 10.5C5.067 10.5 3.5 8.933 3.5 7ZM9.96544 11.0261C9.13578 11.6382 8.11014 12 7 12C4.23858 12 2 9.76142 2 7C2 4.23858 4.23858 2 7 2C9.76142 2 12 4.23858 12 7C12 8.11014 11.6382 9.13578 11.0261 9.96544L14.0303 12.9697L14.5607 13.5L13.5 14.5607L12.9697 14.0303L9.96544 11.0261Z" fill="currentColor"></path></svg>
+&nbsp;Search
+</button> </div> </nav> </div> </div> </header> <!-- <ProgressBar /> --> <main>  <div class="mx-auto max-w-screen-md px-3"> <div class="animate"> <a href="/blog" class="not-prose group relative flex w-fit flex-nowrap rounded border border-black/15 py-1.5 pl-7 pr-3 transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="absolute left-2 top-1/2 size-4 -translate-y-1/2 fill-none stroke-current stroke-2"> <line x1="5" y1="12" x2="19" y2="12" class="translate-x-2 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-hover:scale-x-100 group-focus-visible:translate-x-0 group-focus-visible:scale-x-100"></line> <polyline points="12 5 5 12 12 19" class="translate-x-1 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-focus-visible:translate-x-0"></polyline> </svg> <div class="text-sm"> Back to blog </div> </a> </div> <div class="my-10 space-y-4"> <div class="animate flex items-center gap-1.5"> <div class="font-base text-sm"> <time datetime="2024-03-04T00:00:00.000Z"> March 04, 2024 </time> </div>
+&bull;
+<div class="font-base text-sm"> 12 min read </div> </div> <h1 class="animate text-4xl font-semibold text-black dark:text-white"> Having fun with nuts 🥜🌰🐿️ &amp; garbage collecting 🗑️ 🚮 </h1> <div class="font-base text-sm "> <div class="inline-block my-1"> <a href="/tags/embedded" class="mx-1 rounded-full px-2 py-1 bg-orange-300 hover:bg-cyan-200 dark:bg-orange-500 dark:hover:bg-cyan-500 transition-colors duration-300 ease-in-out">
+#embedded </a> </div><div class="inline-block my-1"> <a href="/tags/scripting" class="mx-1 rounded-full px-2 py-1 bg-orange-300 hover:bg-cyan-200 dark:bg-orange-500 dark:hover:bg-cyan-500 transition-colors duration-300 ease-in-out">
+#scripting </a> </div><div class="inline-block my-1"> <a href="/tags/squirrel" class="mx-1 rounded-full px-2 py-1 bg-orange-300 hover:bg-cyan-200 dark:bg-orange-500 dark:hover:bg-cyan-500 transition-colors duration-300 ease-in-out">
+#squirrel </a> </div><div class="inline-block my-1"> <a href="/tags/lua" class="mx-1 rounded-full px-2 py-1 bg-orange-300 hover:bg-cyan-200 dark:bg-orange-500 dark:hover:bg-cyan-500 transition-colors duration-300 ease-in-out">
+#lua </a> </div><div class="inline-block my-1"> <a href="/tags/garbage-collection" class="mx-1 rounded-full px-2 py-1 bg-orange-300 hover:bg-cyan-200 dark:bg-orange-500 dark:hover:bg-cyan-500 transition-colors duration-300 ease-in-out">
+#garbage-collection </a> </div> </div> </div>  <article class="animate"> <h3 id="introduction-to-embedded-scripting-languages">Introduction to Embedded Scripting Languages:</h3>
+<p><strong>This blog is aimed at those with some understanding of memory management in
+programming languages and those curious about what a garbage collector is.</strong></p>
+<p>First contact: Squrriel. Recently I started working on a code base that was
+littered with files ended in a strange extension like .nut. Obviously having the
+humour of a 12 year old, I proceeded to tell my friends all about this hilarious
+language that I’d love to pair with some <a href="https://github.com/coq/coq">coq</a> <span role="img" aria-label="rooster">🐓</span>.</p>
+<p>Jokes aside, I really was wondering <strong>what was the purpose of a garbage
+collected language in an embedded systems environment?</strong></p>
+<p>As a newbie to embedded systems programming, I had a few preconceptions about
+the field. Especially in the case of writing firmware for IoT devices.</p>
+<p>I generally thought of embedded devices as:</p>
+<div style="text-align: center;">
+    <img src="/2_emb_class.jpeg" style="width: 50%;" alt="Class guide">
+</div>
+<p>Low power and low cost and not.</p>
+<p>When you are not low power and you can eat at places with <code>$$$</code> on google maps,
+feel free to throw processing power at the problem, put Linux or Android on the
+device and lots of RAM and run java (please don’t).</p>
+<p>If constrained by low cost and low power, you are usually limited to bare metal
+or RTOS in C/C++.</p>
+<p>For the rest, it is probably a specific combination of hardware and software
+that’s not really the focus right now.</p>
+<p>All in all, the idea of having a garbage collected language run on IoT devices
+seemed pretty sacrilegious.</p>
+<h2 id="whats-embedded-scripting">Whats embedded scripting?</h2>
+<p>Essentially embedded scripting languages serve as the cornerstone for enhancing
+the programmability and flexibility of embedded systems.</p>
+<blockquote>
+<p><strong>“Squirrel</strong> is a high level imperative, <strong>object-oriented programming
+language,</strong> designed to be a light-weight scripting language that fits in the
+size, memory bandwidth, and real-time requirements of applications like
+<strong>video games</strong>.”</p>
+</blockquote>
+<p>Just reading what <a href="https://squirrel-lang.org/">squirrel-lang</a> says about Squirrel
+lang seemed oxymoronic to me so it prodded me to take a closer look as to why it
+serves its purpose and serves it well.</p>
+<p>Even wihout being ultra-lean code like bare metal C to function efficiently,
+languages such as Squirrel and Lua showcase being an impressive blend of being
+lightweight while simultaneously offering a rich set of features.</p>
+<p>This unique combination allows for a more dynamic and customizable approach to
+embedded system development, enabling both developers and end-users to explore a
+broader range of functionalities without compromising on performance or resource
+utilization.</p>
+<p>First thing to debunk - embedded scripting languages don’t add as much bloat as
+I has originally thought. Squirrel can be as little as 100-150KB and Lua is down
+to a shocking 63K!</p>
+<p>We all know how easy it is to protoype something out in python and essentially,
+embedded scripting langugage support that (any many other purposes). One of the
+most significant advantages of embedded scripting languages is their ability to
+make embedded systems more adaptable and interactive.</p>
+<p>For instance, in the realm of video game development, these languages allow for
+rapid iteration of game logic and user interfaces, enabling developers to
+implement changes without the need for recompilation. This flexibility is not
+only a bonus for developers but also enhances the gaming experience by allowing
+for real-time game modifications and customizations.</p>
+<h2 id="discovering-squirrel">Discovering Squirrel</h2>
+<p>As I delved deeper into the world of embedded scripting languages, Lua was a
+familiar companion, thanks to my adventures in Minecraft modding and tinkering
+with my Neovim setup. However, Squirrel was a novel encounter, a language I
+hadn’t crossed paths with before. This piqued my curiosity: <strong>Why does Squirrel
+exist?</strong></p>
+<p>Alberto Demichelis, the creator of Squirrel, found his inspiration while
+integrating Lua at CryTek, a game development company. Lua, for all its
+strengths, presented a challenge with its garbage collector’s unpredictability,
+which could potentially hamper real-time performance—a critical aspect in
+gaming. Lua’s approach to garbage collection, though somewhat manageable through
+the <code>lua_gc()</code> function, required fine-tuning of the step size argument to
+mitigate performance impacts. This setting varied widely across projects and
+needed adjustments with project evolution.</p>
+<p>In an effort to circumvent these issues, Demichelis explored implementing
+reference counting in Lua. This method aimed to eliminate the need for periodic
+memory scans by the collector, instead tracking object ownership through
+reference counts and releasing objects when no longer referenced. However, the
+extensive modifications needed led him to consider a fresh start. Thus, Squirrel
+was born out of the desire to create a language that addressed Lua’s
+limitations, including its unconventional syntax, which often left co-workers
+puzzled over basic constructs like a for-loop, and its relatively limited
+feature set.</p>
+<p>Squirrel was designed from the ground up to tackle these challenges, offering a
+solution that blends the ease of embedded scripting with improvements in garbage
+collection, syntax familiarity, and an enriched set of features. This innovative
+approach allows Squirrel to fill a unique niche in the embedded scripting
+landscape, particularly appealing to those in the game development sphere
+seeking a more predictable and developer-friendly language.</p>
+<h2 id="some-comparisons">Some comparisons</h2>
+<p>I think its hard to frame the position of Squirrel without comparing a more
+familiar Lua.</p>
+<p>Design and Performance: Squirrel vs. Lua At its core, Squirrel shares a
+spiritual lineage with Lua. Both languages are built atop a register-based
+virtual machine (VM), showcasing their efficiency and adaptability in embedding
+within C and C++ programs. This foundational similarity extends to their
+compactness and the ability to manage multiple VMs independently, making them
+highly versatile in various programming contexts. However, Squirrel
+distinguishes itself through its implementation and language features.</p>
+<p>While Lua is penned in C, Squirrel ventures a step further into modern
+programming paradigms with its implementation in C++, offering a C API that
+mirrors Lua’s stack-based approach. This strategic choice allows Squirrel to
+integrate seamlessly into projects, providing developers the flexibility to
+modify the language source directly if necessary. Both languages maintain a
+minimal footprint, with their compiled forms hovering around the 100-150
+kilobyte mark, demonstrating their lightweight nature.</p>
+<p>Performance discussions often highlight Lua’s edge in microbenchmarks,
+attributed to its streamlined bytecode processing and strategic memory
+management during benchmarking. Squirrel, despite being slightly slower in these
+microbenchmarks, introduces more data types and language features, enriching the
+developer’s toolkit. The trade-off lies in Squirrel’s approach to memory
+management. Through reference counting, Squirrel ensures a consistent,
+predictable overhead in memory management, crucial for applications like video
+games where timing is everything.</p>
+<h2 id="real-world-performance-considerations">Real-World Performance Considerations</h2>
+<p>Demichelis emphasizes the importance of assessing language performance within
+real application scenarios, where factors like memory management, cache misses,
+and memory aliasing play significant roles. Squirrel’s design prioritizes
+predictable memory management costs and efficient data structures to mitigate
+these issues. Innovations in memory management within Squirrel’s ecosystem, such
+as optimizing for cache friendliness and leveraging OS-level memory alignment,
+have shown to significantly boost performance in stress tests mimicking game
+loops.</p>
+<p>In essence, Squirrel’s development philosophy centers around providing a robust,
+feature-rich scripting language that addresses the specific needs of real-time
+applications. Its approach to predictable memory management and performance
+optimization underscores its suitability for scenarios where timing and resource
+efficiency are paramount. As we delve deeper into Squirrel, it becomes clear
+that its existence is not merely to serve as an alternative to Lua but to offer
+unique solutions to the nuanced challenges of embedded and real-time
+programming.</p>
+<h2 id="garbage-collection-in-squirrel">Garbage Collection in Squirrel</h2>
+<p>Now I’m going to foray into the thing that has intrigued me the most &#x26; inspired
+me to go down this rabbit-hole in the first place - a garbage collector on
+embedded systems.</p>
+<h3 id="why-does-garbage-collecting-affect-performance-anyways">Why does garbage collecting affect performance anyways?</h3>
+<p>First thing to keep in mind is that, even without garbage collection, a program
+typically needs to allocate and free memory (unless you’re trying to make it to
+the MITRE CVE leaderboard!). Garbage collection will allow the ‘free’-ing half
+of the process to happen in batches, ideally when the program is relatievly idle
+or not encroaching on CPU bound tasks.</p>
+<p>You’d want to batch together these operations to reduce the overhead of
+syscalls. If you happen to have a lot of memory spare, some collectors might
+even defer to free till the end of the program!</p>
+<p>The collector has to still spend resources analysing what is <strong>reachable</strong>.</p>
+<p>Simply put, <strong>reachable</strong> values are those that are accessible or usable somehow.
+They are guaranteed to be stored in memory.</p>
+<p>There’s a base set of inherently reachable values, that cannot be deleted for
+obvious reasons.</p>
+<p>For instance:</p>
+<ul>
+<li>The currently executing function, its local variables and parameters.</li>
+<li>Other functions on the current chain of nested calls, their local variables
+and parameters.</li>
+<li>Global variables. (there are some other, internal ones as well)</li>
+</ul>
+<p>Typically we can achieve this using reference counting. Determining what is
+reachable is the real performance penalty. Additionally, this process does tend
+to briefly interrupt normal execution.</p>
+<p>The interruptions can especially be a significant factor in applications that
+are sensitive to latency issues. This happens to include the common scenario of
+serving web content. Fortunately, there are also now garbage collector modes to
+reduce this impact.</p>
+<p>The result is for most garbage collected platforms, the collector is one factor
+to consider when evaluating performance. The net effect of the garbage collector
+may be minimal — or even a net positive! — over the life of an application
+session, but there can short-lived periods where there is significant negative
+impact, and it’s important to be aware of how to mitigate those issues.</p>
+<h2 id="under-the-hood-a-look-at-how-the-trash-man-operates">Under the hood: A look at how the trash man operates</h2>
+<p>I’m not going to let it go out without peeking under the hood and since the
+codebase for Squirrel is small enough, I think its a good way to study how a
+garbage collector can be implemented.</p>
+<h2 id="core-components">Core Components:</h2>
+<h3 id="1-reference-counting">1. <strong>Reference Counting:</strong></h3>
+<ul>
+<li>Implemented via <code>SQRefCounted</code> structure.</li>
+<li>Every collectable object has a reference count (<code>_uiRef</code>).</li>
+<li><code>Release()</code> method decreases the reference count and deletes the object if it
+reaches zero.
+<pre class="astro-code css-variables" style="background-color:var(--astro-code-color-background);color:var(--astro-code-color-text); overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:var(--astro-code-token-keyword)">    struct</span><span style="color:var(--astro-code-token-function)"> SQRefCounted</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">  {</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">      SQUnsignedInteger _uiRef;</span><span style="color:var(--astro-code-token-comment)"> // Reference count</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">      virtual</span><span style="color:var(--astro-code-token-function)"> ~SQRefCounted</span><span style="color:var(--astro-code-color-text)">() {}</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">      virtual</span><span style="color:var(--astro-code-token-keyword)"> void</span><span style="color:var(--astro-code-token-function)"> Release</span><span style="color:var(--astro-code-color-text)">()</span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-token-constant)">0</span><span style="color:var(--astro-code-color-text)">;</span><span style="color:var(--astro-code-token-comment)"> // Decreases the reference count and deletes the object if it reaches zero.</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">  };</span></span>
+<span class="line"></span></code></pre>
+</li>
+</ul>
+<h3 id="2-mark-and-sweep">2. <strong>Mark-and-Sweep:</strong></h3>
+<ul>
+<li>Enabled by defining <code>NO_GARBAGE_COLLECTOR</code> to include GC-related code.</li>
+<li><code>SQCollectable</code> extends <code>SQRefCounted</code>, adding <code>_next</code>, <code>_prev</code>, for chaining
+collectable objects, and a mark flag (<code>MARK_FLAG</code>).</li>
+<li><code>AddToChain()</code> and <code>RemoveFromChain()</code> manage collectables in a global chain.</li>
+<li>During the mark phase, <code>Mark()</code> is recursively called on objects to set the
+mark flag.</li>
+<li><code>UnMark()</code> clears the mark flag for the sweep phase.</li>
+<li>Sweep phase finalizes and deletes unmarked (unreachable) objects.
+<pre class="astro-code css-variables" style="background-color:var(--astro-code-color-background);color:var(--astro-code-color-text); overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:var(--astro-code-token-keyword)">  struct</span><span style="color:var(--astro-code-token-function)"> SQCollectable</span><span style="color:var(--astro-code-token-punctuation)"> :</span><span style="color:var(--astro-code-token-keyword)"> public</span><span style="color:var(--astro-code-token-function)"> SQRefCounted</span><span style="color:var(--astro-code-color-text)"> {</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">      SQCollectable </span><span style="color:var(--astro-code-token-keyword)">*</span><span style="color:var(--astro-code-color-text)">_next</span><span style="color:var(--astro-code-token-punctuation)">,</span><span style="color:var(--astro-code-token-keyword)"> *</span><span style="color:var(--astro-code-color-text)">_prev;</span><span style="color:var(--astro-code-token-comment)"> // For chaining collectable objects</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">      virtual</span><span style="color:var(--astro-code-token-keyword)"> void</span><span style="color:var(--astro-code-token-function)"> Mark</span><span style="color:var(--astro-code-color-text)">(</span><span style="color:var(--astro-code-token-function)">SQCollectable</span><span style="color:var(--astro-code-token-keyword)"> **</span><span style="color:var(--astro-code-color-text)">chain)</span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-token-constant)">0</span><span style="color:var(--astro-code-color-text)">;</span><span style="color:var(--astro-code-token-comment)"> // Marks objects recursively</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">      void</span><span style="color:var(--astro-code-token-function)"> UnMark</span><span style="color:var(--astro-code-color-text)">();</span><span style="color:var(--astro-code-token-comment)"> // Clears the mark flag</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">      virtual</span><span style="color:var(--astro-code-token-keyword)"> void</span><span style="color:var(--astro-code-token-function)"> Finalize</span><span style="color:var(--astro-code-color-text)">()</span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-token-constant)">0</span><span style="color:var(--astro-code-color-text)">;</span><span style="color:var(--astro-code-token-comment)"> // Finalizes the object</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">      static</span><span style="color:var(--astro-code-token-keyword)"> void</span><span style="color:var(--astro-code-token-function)"> AddToChain</span><span style="color:var(--astro-code-color-text)">(</span><span style="color:var(--astro-code-token-function)">SQCollectable</span><span style="color:var(--astro-code-token-keyword)"> **</span><span style="color:var(--astro-code-color-text)">chain</span><span style="color:var(--astro-code-token-punctuation)">,</span><span style="color:var(--astro-code-token-function)"> SQCollectable</span><span style="color:var(--astro-code-token-keyword)"> *</span><span style="color:var(--astro-code-color-text)">c);</span><span style="color:var(--astro-code-token-comment)"> // Adds objects to a global chain</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">      static</span><span style="color:var(--astro-code-token-keyword)"> void</span><span style="color:var(--astro-code-token-function)"> RemoveFromChain</span><span style="color:var(--astro-code-color-text)">(</span><span style="color:var(--astro-code-token-function)">SQCollectable</span><span style="color:var(--astro-code-token-keyword)"> **</span><span style="color:var(--astro-code-color-text)">chain</span><span style="color:var(--astro-code-token-punctuation)">,</span><span style="color:var(--astro-code-token-function)"> SQCollectable</span><span style="color:var(--astro-code-token-keyword)"> *</span><span style="color:var(--astro-code-color-text)">c);</span><span style="color:var(--astro-code-token-comment)"> // Removes objects from the chain</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">  };</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+</li>
+</ul>
+<h2 id="implementation-details">Implementation Details:</h2>
+<h3 id="mark-phase">Mark Phase:</h3>
+<ul>
+<li>Initiated by <code>SQSharedState::RunMark()</code>, marking root objects and recursively
+marking reachable objects.</li>
+<li>Each collectable type (e.g., <code>SQArray</code>, <code>SQTable</code>, <code>SQClass</code>, etc.) implements
+its own <code>Mark()</code> method to mark its references.</li>
+<li><code>MarkObject()</code> function is used to dispatch the mark call based on object
+type.
+<pre class="astro-code css-variables" style="background-color:var(--astro-code-color-background);color:var(--astro-code-color-text); overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:var(--astro-code-token-keyword)">struct</span><span style="color:var(--astro-code-token-function)"> SQSharedState</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">{</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">    void</span><span style="color:var(--astro-code-token-function)"> RunMark</span><span style="color:var(--astro-code-color-text)">(</span><span style="color:var(--astro-code-token-function)">SQVM</span><span style="color:var(--astro-code-token-keyword)"> *</span><span style="color:var(--astro-code-color-text)">vm</span><span style="color:var(--astro-code-token-punctuation)">,</span><span style="color:var(--astro-code-token-function)"> SQCollectable</span><span style="color:var(--astro-code-token-keyword)"> **</span><span style="color:var(--astro-code-color-text)">tchain);</span><span style="color:var(--astro-code-token-comment)"> // Initiates the marking phase</span></span>
+<span class="line"><span style="color:var(--astro-code-token-function)">    SQInteger</span><span style="color:var(--astro-code-token-function)"> CollectGarbage</span><span style="color:var(--astro-code-color-text)">(</span><span style="color:var(--astro-code-token-function)">SQVM</span><span style="color:var(--astro-code-token-keyword)"> *</span><span style="color:var(--astro-code-color-text)">vm);</span><span style="color:var(--astro-code-token-comment)"> // Performs garbage collection, combining mark and sweep phases</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">    static</span><span style="color:var(--astro-code-token-keyword)"> void</span><span style="color:var(--astro-code-token-function)"> MarkObject</span><span style="color:var(--astro-code-color-text)">(</span><span style="color:var(--astro-code-token-function)">SQObjectPtr</span><span style="color:var(--astro-code-token-keyword)"> &#x26;</span><span style="color:var(--astro-code-color-text)">o</span><span style="color:var(--astro-code-token-punctuation)">,</span><span style="color:var(--astro-code-token-function)"> SQCollectable</span><span style="color:var(--astro-code-token-keyword)"> **</span><span style="color:var(--astro-code-color-text)">chain);</span><span style="color:var(--astro-code-token-comment)"> // Dispatches mark calls based on object type</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">};</span></span>
+<span class="line"></span></code></pre>
+</li>
+</ul>
+<h3 id="sweep-phase">Sweep Phase:</h3>
+<ul>
+<li><code>CollectGarbage()</code> method in <code>SQSharedState</code> triggers garbage collection,
+integrating both mark and sweep phases.</li>
+<li>Performed in <code>SQSharedState::CollectGarbage()</code>, iterating through the global
+chain of collectable objects.</li>
+<li>It finalizes and releases objects not marked (i.e., unreachable).
+<pre class="astro-code css-variables" style="background-color:var(--astro-code-color-background);color:var(--astro-code-color-text); overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:var(--astro-code-token-function)">SQInteger</span><span style="color:var(--astro-code-color-text)"> SQSharedState</span><span style="color:var(--astro-code-token-punctuation)">::</span><span style="color:var(--astro-code-token-function)">CollectGarbage</span><span style="color:var(--astro-code-color-text)">(</span><span style="color:var(--astro-code-token-function)">SQVM</span><span style="color:var(--astro-code-token-keyword)"> *</span><span style="color:var(--astro-code-color-text)">vm)</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">{</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">    SQInteger n </span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-token-constant)"> 0</span><span style="color:var(--astro-code-color-text)">;</span><span style="color:var(--astro-code-token-comment)"> // Counter for collected objects</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">    SQCollectable </span><span style="color:var(--astro-code-token-keyword)">*</span><span style="color:var(--astro-code-color-text)">tchain </span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-token-constant)"> NULL</span><span style="color:var(--astro-code-color-text)">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--astro-code-token-function)">    RunMark</span><span style="color:var(--astro-code-color-text)">(vm</span><span style="color:var(--astro-code-token-punctuation)">,</span><span style="color:var(--astro-code-token-keyword)"> &#x26;</span><span style="color:var(--astro-code-color-text)">tchain);</span><span style="color:var(--astro-code-token-comment)"> // Mark phase</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--astro-code-token-comment)">    // Sweep phase: Iterate over collectables and delete unmarked objects</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">    SQCollectable </span><span style="color:var(--astro-code-token-keyword)">*</span><span style="color:var(--astro-code-color-text)">t </span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-color-text)"> _gc_chain;</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">    while</span><span style="color:var(--astro-code-color-text)">(t) {</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">        if</span><span style="color:var(--astro-code-color-text)"> (</span><span style="color:var(--astro-code-token-keyword)">!</span><span style="color:var(--astro-code-color-text)">(</span><span style="color:var(--astro-code-token-constant)">t</span><span style="color:var(--astro-code-token-punctuation)">-></span><span style="color:var(--astro-code-color-text)">_uiRef </span><span style="color:var(--astro-code-token-keyword)">&#x26;</span><span style="color:var(--astro-code-color-text)"> MARK_FLAG)) {</span><span style="color:var(--astro-code-token-comment)"> // If object is unmarked</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">            SQCollectable </span><span style="color:var(--astro-code-token-keyword)">*</span><span style="color:var(--astro-code-color-text)">next </span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-token-constant)"> t</span><span style="color:var(--astro-code-token-punctuation)">-></span><span style="color:var(--astro-code-color-text)">_next;</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">            if</span><span style="color:var(--astro-code-color-text)"> (</span><span style="color:var(--astro-code-token-keyword)">--</span><span style="color:var(--astro-code-token-constant)">t</span><span style="color:var(--astro-code-token-punctuation)">-></span><span style="color:var(--astro-code-color-text)">_uiRef </span><span style="color:var(--astro-code-token-keyword)">==</span><span style="color:var(--astro-code-token-constant)"> 0</span><span style="color:var(--astro-code-color-text)">) </span><span style="color:var(--astro-code-token-constant)">t</span><span style="color:var(--astro-code-token-punctuation)">-></span><span style="color:var(--astro-code-token-function)">Release</span><span style="color:var(--astro-code-color-text)">();</span><span style="color:var(--astro-code-token-comment)"> // Delete if reference count is zero</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">            t </span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-color-text)"> next;</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">        } </span><span style="color:var(--astro-code-token-keyword)">else</span><span style="color:var(--astro-code-color-text)"> {</span></span>
+<span class="line"><span style="color:var(--astro-code-token-constant)">            t</span><span style="color:var(--astro-code-token-punctuation)">-></span><span style="color:var(--astro-code-token-function)">UnMark</span><span style="color:var(--astro-code-color-text)">();</span><span style="color:var(--astro-code-token-comment)"> // Clear mark for next GC cycle</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">            t </span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-token-constant)"> t</span><span style="color:var(--astro-code-token-punctuation)">-></span><span style="color:var(--astro-code-color-text)">_next;</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">        }</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">        n</span><span style="color:var(--astro-code-token-keyword)">++</span><span style="color:var(--astro-code-color-text)">;</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">    }</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">    _gc_chain </span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-color-text)"> tchain;</span><span style="color:var(--astro-code-token-comment)"> // Update chain for next cycle</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">    return</span><span style="color:var(--astro-code-color-text)"> n;</span><span style="color:var(--astro-code-token-comment)"> // Return number of collected objects</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">}</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+</li>
+</ul>
+<h3 id="reference-table-reftable">Reference Table (<code>RefTable</code>):</h3>
+<ul>
+<li>Manages references to objects, used for adding, releasing, and getting the
+reference count.</li>
+<li>Supports mark phase by marking all objects it holds references to.
+<pre class="astro-code css-variables" style="background-color:var(--astro-code-color-background);color:var(--astro-code-color-text); overflow-x: auto;" tabindex="0" data-language="cpp"><code><span class="line"><span style="color:var(--astro-code-token-keyword)">struct</span><span style="color:var(--astro-code-token-function)"> RefTable</span><span style="color:var(--astro-code-color-text)"> {</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">    void</span><span style="color:var(--astro-code-token-function)"> Mark</span><span style="color:var(--astro-code-color-text)">(</span><span style="color:var(--astro-code-token-function)">SQCollectable</span><span style="color:var(--astro-code-token-keyword)"> **</span><span style="color:var(--astro-code-color-text)">chain);</span><span style="color:var(--astro-code-token-comment)"> // Marks all objects it holds references to</span></span>
+<span class="line"><span style="color:var(--astro-code-token-comment)">    // Other methods omitted for brevity</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">};</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">void</span><span style="color:var(--astro-code-color-text)"> RefTable</span><span style="color:var(--astro-code-token-punctuation)">::</span><span style="color:var(--astro-code-token-function)">Mark</span><span style="color:var(--astro-code-color-text)">(</span><span style="color:var(--astro-code-token-function)">SQCollectable</span><span style="color:var(--astro-code-token-keyword)"> **</span><span style="color:var(--astro-code-color-text)">chain)</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">{</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">    RefNode </span><span style="color:var(--astro-code-token-keyword)">*</span><span style="color:var(--astro-code-color-text)">nodes </span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-color-text)"> _nodes;</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">    for</span><span style="color:var(--astro-code-color-text)"> (SQUnsignedInteger n </span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-token-constant)"> 0</span><span style="color:var(--astro-code-color-text)">; n </span><span style="color:var(--astro-code-token-keyword)">&#x3C;</span><span style="color:var(--astro-code-color-text)"> _numofslots; </span><span style="color:var(--astro-code-token-keyword)">++</span><span style="color:var(--astro-code-color-text)">n</span><span style="color:var(--astro-code-token-punctuation)">,</span><span style="color:var(--astro-code-token-keyword)"> ++</span><span style="color:var(--astro-code-color-text)">nodes) {</span></span>
+<span class="line"><span style="color:var(--astro-code-token-keyword)">        if</span><span style="color:var(--astro-code-color-text)"> (</span><span style="color:var(--astro-code-token-function)">sq_type</span><span style="color:var(--astro-code-color-text)">(</span><span style="color:var(--astro-code-token-constant)">nodes</span><span style="color:var(--astro-code-token-punctuation)">-></span><span style="color:var(--astro-code-color-text)">obj) </span><span style="color:var(--astro-code-token-keyword)">!=</span><span style="color:var(--astro-code-color-text)"> OT_NULL) {</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">            SQSharedState</span><span style="color:var(--astro-code-token-punctuation)">::</span><span style="color:var(--astro-code-token-function)">MarkObject</span><span style="color:var(--astro-code-color-text)">(</span><span style="color:var(--astro-code-token-constant)">nodes</span><span style="color:var(--astro-code-token-punctuation)">-></span><span style="color:var(--astro-code-color-text)">obj</span><span style="color:var(--astro-code-token-punctuation)">,</span><span style="color:var(--astro-code-color-text)"> chain);</span><span style="color:var(--astro-code-token-comment)"> // Mark the object</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">        }</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">    }</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">}</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+</li>
+</ul>
+<p>Closing words: Hope you’ve learnt something! I found this rabbit hole pretty eye
+opening because I had previously black box’ed GCs and never really took a look
+under the hood. This was a gentle introduction to them and I hope I have the
+chance to circle back to see how more sophisticated ones operate. Till next
+time!</p> <div class="mt-24"> <div class="grid grid-cols-2 gap-1.5 sm:gap-3"> <a href="/blog/exploring-cpp-lambdas" class="group relative flex flex-nowrap rounded-lg border border-black/15 px-4 py-3 pl-10 no-underline transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="absolute left-2 top-1/2 size-5 -translate-y-1/2 fill-none stroke-current stroke-2"> <line x1="5" y1="12" x2="19" y2="12" class="translate-x-3 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-hover:scale-x-100 group-focus-visible:translate-x-0 group-focus-visible:scale-x-100"></line> <polyline points="12 5 5 12 12 19" class="translate-x-1 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-focus-visible:translate-x-0"></polyline> </svg> <div class="flex items-center text-sm">Lambdas in C++ 🦙🐑</div> </a> <a href="/blog/building-personal-blog-site-2024" class="group relative flex flex-grow flex-row-reverse flex-nowrap rounded-lg border border-black/15 px-4 py-4 pr-10 no-underline transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="absolute right-2 top-1/2 size-5 -translate-y-1/2 fill-none stroke-current stroke-2"> <line x1="5" y1="12" x2="19" y2="12" class="translate-x-3 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-hover:scale-x-100 group-focus-visible:translate-x-0 group-focus-visible:scale-x-100"></line> <polyline points="12 5 19 12 12 19" class="-translate-x-1 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-focus-visible:translate-x-0"></polyline> </svg> <div class="flex items-center text-sm">Building a Personal Blog Site in 2024: A Rusty Adventure</div> </a> </div> </div> <div class="mt-24"> <div class="giscus"></div> <script data-astro-rerun src="https://giscus.app/client.js" data-repo="trevortylerlee/astro-micro" data-repo-id="R_kgDOL_6l9Q" data-category="Announcements" data-category-id="DIC_kwDOL_6l9c4Cfk55" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script> </div> </article> </div>  </main> <footer class="animate"> <div class="mx-auto max-w-screen-md px-3"> <div class="flex justify-between my-2"> <ul class="not-prose flex flex-wrap gap-2"> <a href="https://github.com/amitrahman1026" target="_blank" class="inline-block text-xl decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-cyan-500 focus-visible:text-black dark:hover:text-orange-500 dark:focus-visible:text-white transition-colors duration-300 ease-in-out"> <i class="bi bi-github"></i> </a> <a href="https://linkedin.com/in/amit-rahman-nz" target="_blank" class="inline-block text-xl decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-cyan-500 focus-visible:text-black dark:hover:text-orange-500 dark:focus-visible:text-white transition-colors duration-300 ease-in-out"> <i class="bi bi-linkedin"></i> </a> <a href="mailto:contact@amitrahman.me" target="_blank" class="inline-block text-xl decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-cyan-500 focus-visible:text-black dark:hover:text-orange-500 dark:focus-visible:text-white transition-colors duration-300 ease-in-out"> <i class="bi bi-envelope-fill"></i> </a> <a href="https://amitrahman.me/rss.xml" target="_blank" class="inline-block text-xl decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-cyan-500 focus-visible:text-black dark:hover:text-orange-500 dark:focus-visible:text-white transition-colors duration-300 ease-in-out"> <i class="bi bi-rss-fill"></i> </a> </ul> <button id="back-to-top" class="group relative flex w-fit flex-nowrap rounded border border-black/15 py-1.5 pl-8 pr-3 transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="absolute left-2 top-1/2 size-4 -translate-y-1/2 rotate-90 fill-none stroke-current stroke-2"> <line x1="5" y1="12" x2="19" y2="12" class="translate-x-2 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-hover:scale-x-100 group-focus-visible:translate-x-0 group-focus-visible:scale-x-100"></line> <polyline points="12 5 5 12 12 19" class="translate-x-1 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-focus-visible:translate-x-0"></polyline> </svg> <div class="text-sm">Back to top</div> </button> </div> <div class="flex items-center justify-between"> <div>&copy; 2025 • Amit Rahman </div> <div class="flex flex-wrap items-center gap-1.5"> <button id="light-theme-button" aria-label="Light theme" class="group flex size-9 items-center justify-center rounded border border-black/15 hover:bg-black/5 focus-visible:bg-black/5 dark:border-white/20 dark:hover:bg-white/5 dark:focus-visible:bg-white/5"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="transition-colors duration-300 ease-in-out group-hover:animate-pulse group-hover:stroke-black group-focus-visible:animate-pulse group-focus-visible:stroke-black group-hover:dark:stroke-white dark:group-focus-visible:stroke-white"> <circle cx="12" cy="12" r="5"></circle> <line x1="12" y1="1" x2="12" y2="3"></line> <line x1="12" y1="21" x2="12" y2="23"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line> <line x1="1" y1="12" x2="3" y2="12"></line> <line x1="21" y1="12" x2="23" y2="12"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line> </svg> </button> <button id="dark-theme-button" aria-label="Dark theme" class="group flex size-9 items-center justify-center rounded border border-black/15 hover:bg-black/5 focus-visible:bg-black/5 dark:border-white/20 dark:hover:bg-white/5 dark:focus-visible:bg-white/5"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="transition-colors duration-300 ease-in-out group-hover:animate-pulse group-hover:stroke-black group-focus-visible:animate-pulse group-focus-visible:stroke-black group-hover:dark:stroke-white dark:group-focus-visible:stroke-white"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> </button> <button id="system-theme-button" aria-label="System theme" class="group flex size-9 items-center justify-center rounded border border-black/15 hover:bg-black/5 focus-visible:bg-black/5 dark:border-white/20 dark:hover:bg-white/5 dark:focus-visible:bg-white/5"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="transition-colors duration-300 ease-in-out group-hover:animate-pulse group-hover:stroke-black group-focus-visible:animate-pulse group-focus-visible:stroke-black group-hover:dark:stroke-white dark:group-focus-visible:stroke-white"> <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect> <line x1="8" y1="21" x2="16" y2="21"></line> <line x1="12" y1="17" x2="12" y2="21"></line> </svg> </button> </div> </div> </div> </footer> <aside data-pagefind-ignore> <div id="backdrop" class="bg-[rgba(0, 0, 0, 0.5] invisible fixed left-0 top-0 z-50 flex h-screen w-full justify-center p-6 backdrop-blur-sm" data-astro-transition-persist="astro-3snakcvo-2"> <div id="pagefind-container" class="m-0 flex h-fit max-h-[80%] w-full max-w-screen-sm flex-col overflow-auto rounded border border-black/15 bg-neutral-100 p-2 px-4 py-3 shadow-lg dark:border-white/20 dark:bg-neutral-900"> <div id="search" class="pagefind-ui pagefind-init" data-pagefind-ui data-bundle-path="/pagefind/" data-ui-options="{&#34;showImages&#34;:false,&#34;excerptLength&#34;:15,&#34;resetStyles&#34;:false}"></div>  <div class="mr-2 pb-1 pt-4 text-right text-xs dark:prose-invert">
+Press <span class="prose text-xs dark:prose-invert"><kbd class="">Esc</kbd></span> or click anywhere to close
+</div> </div> </div> </aside> <script>
+  const magnifyingGlass = document.getElementById("magnifying-glass");
+  const backdrop = document.getElementById("backdrop");
+
+  function openPagefind() {
+    const searchDiv = document.getElementById("search");
+    const search = searchDiv.querySelector("input");
+    setTimeout(() => {
+      search.focus();
+    }, 0);
+    backdrop?.classList.remove("invisible");
+    backdrop?.classList.add("visible");
+  }
+
+  function closePagefind() {
+    const search = document.getElementById("search");
+    search.value = "";
+    backdrop?.classList.remove("visible");
+    backdrop?.classList.add("invisible");
+  }
+
+  // open pagefind
+  magnifyingGlass?.addEventListener("click", () => {
+    openPagefind();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "/") {
+      e.preventDefault();
+      openPagefind();
+    } else if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      e.preventDefault();
+      openPagefind();
+    }
+  });
+
+  // close pagefind
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" || e.keyCode === 27) {
+      closePagefind();
+    }
+  });
+
+  // close pagefind when searched result(link) clicked
+  document.addEventListener("click", (event) => {
+    if (event.target.classList.contains("pagefind-ui__result-link")) {
+      closePagefind();
+    }
+  });
+
+  backdrop?.addEventListener("click", (event) => {
+    if (!event.target.closest("#pagefind-container")) {
+      closePagefind();
+    }
+  });
+
+  // prevent form submission
+  const form = document.getElementById("form");
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+  });
+</script>  </body></html>

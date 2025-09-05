@@ -2,61 +2,54 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Set up Rust
-      uses: dtolnay/rust-toolchain@stable
-      with:
-        targets: wasm32-unknown-unknown
-        toolchain: stable
+      - name: Checkout
+        uses: actions/checkout@v4
         
-    - name: Install Trunk
-      uses: jetli/trunk-action@v0.5.0
-      with:
-        version: 'latest'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: './package-lock.json'
+          
+      - name: Install dependencies
+        run: npm ci
         
-    - name: Build website
-      run: |
-        chmod +x ./scripts/build_md_lists.sh
-        ./scripts/build_md_lists.sh
-        trunk build --release
-        cat ./dist/index.html
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v4
         
-    - name: Create CNAME file
-      run: echo "amitrahman.me" > ./dist/CNAME
-      
-    - name: Archive artifact
-      run: |
-        tar \
-          --dereference --hard-dereference \
-          --directory "${{ github.workspace }}/dist" \
-          -cvf "${{ runner.temp }}/artifact.tar" \
-          --exclude=.git \
-          --exclude=.github \
-          .
-      
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: github-pages
-        path: ${{ runner.temp }}/artifact.tar
-        retention-days: 1
+      - name: Build site
+        run: npm run build
         
-    - name: Deploy to GitHub Pages
-      uses: actions/deploy-pages@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
