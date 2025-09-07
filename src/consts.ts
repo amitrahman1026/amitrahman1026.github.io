@@ -3,7 +3,7 @@ import type { Metadata, Site } from "@types";
 export const SITE: Site = {
   TITLE: "Amit Rahman",
   DESCRIPTION: "Personal website and blog of Amit Rahman",
-  EMAIL: "contact@amitrahman.me",
+  EMAIL: "amit.amit.rahman@gmail.com",
   NUM_POSTS_ON_HOMEPAGE: 5,
   NUM_PUBLICATIONS_ON_HOMEPAGE: 3,
   SITEURL: 'https://amitrahman.me'
