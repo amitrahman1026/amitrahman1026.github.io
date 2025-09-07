@@ -1,0 +1,77 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import { ABOUT } from "@consts";
+---
+
+<Layout title={ABOUT.TITLE} description={ABOUT.DESCRIPTION}>
+  <Container>
+    <aside data-pagefind-ignore>
+      <div class="space-y-10">
+        <div class="animate font-semibold text-black dark:text-white">
+          Contact
+        </div>
+        <section class="animate not-prose flex flex-col gap-4">
+          <p class="text-justify">
+            Feel free to reach out to me via email or connect with me on GitHub or LinkedIn.
+          </p>      
+          
+          <ul class="space-y-2">
+            <li>
+              <strong>Email:</strong> 
+              <a href="mailto:amit.amit.rahman@gmail.com" class="text-blue-600 dark:text-blue-400 hover:underline">
+                amit.amit.rahman@gmail.com
+              </a>
+            </li>
+            <li>
+              <strong>GitHub:</strong> 
+              <a href="https://www.github.com/amitrahman1026" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">
+                github.com/amitrahman1026
+              </a>
+            </li>
+            <li>
+              <strong>LinkedIn:</strong> 
+              <a href="https://www.linkedin.com/in/amitrahman1026" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">
+                linkedin.com/in/amitrahman1026
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section class="animate space-y-6">
+          <div class="font-semibold text-black dark:text-white">
+            Resume
+          </div>
+          <div class="space-y-4">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              You can view my resume online or download the PDF version.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a 
+                href="/resume.pdf" 
+                target="_blank"
+                class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 border border-blue-600 dark:border-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+              >
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                </svg>
+                Download PDF
+              </a>
+              <a 
+                href="/resume.pdf" 
+                target="_blank"
+                class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              >
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+                View Online
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </aside>
+  </Container>
+</Layout>

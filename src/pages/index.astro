@@ -1,0 +1,48 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import { SITE, HOME } from "@consts";
+import Link from "@components/Link.astro";
+import SocialIcons from "@components/SocialIcons.astro";
+---
+
+<Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
+  <Container>
+    <aside data-pagefind-ignore>
+      <h1 class="animate font-semibold text-black dark:text-white">
+          About
+      </h1>
+      <div class="space-y-16">
+        <section>
+          <article class="space-y-4">
+            <span class="animate">
+              <p>
+                I'm Amit, a Computer Engineering graduate from NUS. I currently work as a C++ developer in Hong Kong building trading systems at a hedge fund to pay the bills.
+              </p>
+              <p>
+              My interests span programming languages, compilers, distributed systems, and embedded systems. <br> Previously I've worked / interned at:
+              </p>
+              <ul class="list-disc list-inside ml-4 space-y-1">
+                <li><Link href="https://grasshopperasia.com/about">Grasshopper</Link> (rust development)</li>
+                <li><Link href="https://www.getkisi.com/about">Kisi</Link> (embedded systems)</li>
+                <li><Link href="https://www.hydrax.io/about/">HydraX</Link> (devops)</li>
+                <li>Ed-tech startup (full stack)</li>
+              </ul>
+              <p>
+                Long-term, I want to return to academia for research. For now, I write about things that interest me — mostly systems programming and language design.
+              </p>
+              <p>
+                <strong>Note:</strong> All content here represents my personal views, not those of any employer.
+              </p>
+            </span>
+          </article>
+        </section>
+
+        <div class="block md:hidden">
+          <SocialIcons icon_size={'text-2xl'} />
+        </div>
+
+      </div>
+    </aside>
+  </Container>
+</Layout>
