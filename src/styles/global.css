@@ -50,6 +50,12 @@ article {
   @apply prose-code:before:content-none prose-code:after:content-none;
 }
 
+/* remove background from code inside pre blocks */
+article pre code {
+  @apply bg-transparent px-0 py-0 rounded-none;
+  background-color: transparent !important;
+}
+
 @layer utilities {
   article a {
     @apply font-sans text-current underline underline-offset-[3px];
