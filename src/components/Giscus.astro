@@ -1,20 +1,43 @@
 <div class="giscus"></div>
 
-<script
-  is:inline
-  data-astro-rerun
-  src="https://giscus.app/client.js"
-  data-repo="trevortylerlee/astro-micro"
-  data-repo-id="R_kgDOL_6l9Q"
-  data-category="Announcements"
-  data-category-id="DIC_kwDOL_6l9c4Cfk55"
-  data-mapping="pathname"
-  data-strict="0"
-  data-reactions-enabled="1"
-  data-emit-metadata="0"
-  data-input-position="top"
-  data-theme="preferred_color_scheme"
-  data-lang="en"
-  data-loading="lazy"
-  crossorigin="anonymous"
-  async></script>
+<script is:inline data-astro-rerun>
+
+    // Somehwat hacky way to get the locally set theme if it exists
+    function getInitialTheme() {
+      const userTheme = localStorage.getItem("theme");
+      
+      if (userTheme === "light") {
+        return "light";
+      } else if (userTheme === "dark") {
+        return "dark";
+      } else { // not set
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+    }
+  
+    function loadGiscus() {
+      const giscusContainer = document.querySelector('.giscus');
+      if (!giscusContainer) return;
+    
+    const giscusScript = document.createElement("script");
+    giscusScript.src = "https://giscus.app/client.js";
+    giscusScript.setAttribute("data-repo", "trevortylerlee/astro-micro");
+    giscusScript.setAttribute("data-repo-id", "R_kgDOL_6l9Q");
+    giscusScript.setAttribute("data-category", "Announcements");
+    giscusScript.setAttribute("data-category-id", "DIC_kwDOL_6l9c4Cfk55");
+    giscusScript.setAttribute("data-mapping", "pathname");
+    giscusScript.setAttribute("data-strict", "0");
+    giscusScript.setAttribute("data-reactions-enabled", "1");
+    giscusScript.setAttribute("data-emit-metadata", "0");
+    giscusScript.setAttribute("data-input-position", "top");
+    giscusScript.setAttribute("data-theme", getInitialTheme());
+    giscusScript.setAttribute("data-lang", "en");
+    giscusScript.setAttribute("data-loading", "lazy");
+    giscusScript.setAttribute("crossorigin", "anonymous");
+    giscusScript.async = true;
+    
+    giscusContainer.appendChild(giscusScript);
+  }
+  
+  loadGiscus();
+</script>
