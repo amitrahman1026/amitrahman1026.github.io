@@ -13,7 +13,7 @@ export const HIGHLIGHTAUTHOR = "Amit Rahman"
 
 export const HOME: Metadata = {
   TITLE: "Home",
-  DESCRIPTION: "Astro Micro is an accessible theme for Astro.",
+  DESCRIPTION: "Personal website and blog of Amit Rahman",
 };
 
 export const BLOG: Metadata = {
@@ -24,13 +24,13 @@ export const BLOG: Metadata = {
 export const RESEARCH: Metadata = {
   TITLE: "Publications",
   DESCRIPTION:
-    "A collection of my publications with links to paper, repositories and live demos.",
+    "A collection of my publications with links to paper, repositories and maybe some live demos.",
 };
 
 export const CV: Metadata = {
   TITLE: "CV",
   DESCRIPTION:
-    "your cv",
+    "CV",
 };
 
 export const TAGS: Metadata = {
