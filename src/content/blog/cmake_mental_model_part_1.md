@@ -1,14 +1,16 @@
 ---
 title: "Modern CMake: A Mental Model for Large Codebases (part I)"
 description: "An intuition for CMake internals with many practical examples"
-date: "2025-09-01"
+date: "2025-09-13"
 tags: ["cmake", "cpp", "build systems"]
 draft: false
 ---
 
 ## Why another CMake tutorial?
 
-In this article, I will attempt to create a better intuition for how CMake works, so the next time you modify your CMakeLists.txt, you can potentially leave it in a better state than you found it in.
+In this article, I will attempt to create a better intuition for how CMake works, so the next time you modify your CMakeLists.txt, you can potentially leave it in a better state than you found it in. 
+
+**This article is not introductory. It is aimed at developers who may be working on established codebases with mixes CMake practices. To learn more about CMake, you may visit any of the links in this aritcle or the [official documentations](https://cmake.org/cmake/help/latest/guide/tutorial/index.html).**
 
 CMake is essentially a domain-specific language for a general purpose build system. There are great "Modern CMake" tutorials floating around like [An introduction to Modern CMake](https://cliutils.gitlab.io/modern-cmake/README.html), and presentations like [More Modern CMake - Deniz Bahadir - Meeting C++ 2018](https://www.youtube.com/watch?v=y7ndUhdQuU8). However one area some of these resources are lacking in -  in creating an understanding of "what" your CMake is doing. Due to abstraction, there is a disconnect between what compile commands your make file CMake would generate and what you write in your CMakeLists.txt.
 
