@@ -79,7 +79,7 @@
 #link("mailto:" + email)[#email] #text(black)[$space.hair$|$space.hair$] #link("https://" + github)[#github] #text(black)[$space.hair$|$space.hair$] #link("https://" + linkedin)[#linkedin] #text(black)[$space.hair$|$space.hair$] #phone_number
 
 #section(header: "Work Authorization")[
-  Singapore Citizen; eligible for H-1B1 and J-1 US visas, no lottery/petition required
+  Singapore Citizen; eligible for H-1B1 US visa, no lottery/petition required
 ]
 
 #section(header: "Education")[
@@ -96,15 +96,21 @@
 #section(header: "Experience")[
   #experience(
     company: "Qube Research & Technologies",
-    role: "Software Engineer Intern",
-    start: "May 2025",
-    end: "Aug 2025",
+    role: "Software Engineer - Core trading systems",
+    start: "Aug 2025",
+    end: "Present",
     location: "Hong Kong SAR",
     url: "https://www.qube-rt.com/"
   )[
+    - Development owner of firm-wide C++ margin service computing real-time initial and variation margin across futures and options portfolios on a global event-driven pub/sub infrastructure
+    - Designed what-if margining API enabling CRO and trading desks to compose hypothetical portfolios against live positions, supporting capital deployment decisions and broker dispute resolution
+    - Standardised CMake build system across a multi-service C++ monorepo with presets, modern targets, Python packaging integration; eliminated CI/local config drift and cut Linux builds from 20 to 4 minutes via mold and ccache
+    - Ported and extended cross-platform integration testing harness across Windows and Linux for deterministic simulation of trading system events, enabling automated regression integration testing at scale
+
+    Software Engineer Intern - Core trading systems                           #h(1fr) May 2025 - Aug 2025\
+                                                #h(1fr) Hong Kong SAR\
     - Profiled and optimized order router C++ microservice components, improving peak throughput from 60,000 to 140,000 trades/s used by event-based traders on Instinet clients
-    - Identified and eliminated bottlenecks in memory management strategy of FIX protocol message processing services
-    - Optimizations across the processing stack, cutting down p99 tail latency of trades processed by 4x factor
+    - Identified heap allocation bottleneck in FIX message processing hot path; designed and integrated a C++17 PMR-wrapped pool allocator with logarithmic bucket sizing, cutting p99 tail latency by 4x
     - Introduced lightweight service instrumentation and microbenchmarking suite, enabling continuous telemetry collection
   ]
   
@@ -131,20 +137,20 @@
   )[
     - Led the transition of 50,000 access control IoT devices to FreeRTOS and a GCP-backed proprietary IoT platform, improving system reliability and scalability
     - Developed critical firmware components including a thread-safe networking library and encryption module, resulting in an 80% reduction in networking latency and a 100x improvement in encryption/decryption speed
-    - Collaborated with cross-functional teams to implement embedded telemetry support, enhancing overall system monitoring
+    // - Collaborated with cross-functional teams to implement embedded telemetry support, enhancing overall system monitoring
   ]
 
-  #experience(
-    company: "Coditioning",
-    role: "Software Engineer Intern",
-    start: "Jul 2023",
-    end: "Sep 2023",
-    location: "Remote",
-    url: "https://beta.coditioning.com"
-  )[
-    - Engineered an end-to-end sandboxed code execution environment with a responsive feedback system, achieving an average response time of 500ms for \~1,000 users
-    - Designed and implemented REST API and message queue system, ensuring efficient handling of code submissions.
-  ]
+  // #experience(
+  //   company: "Coditioning",
+  //   role: "Software Engineer Intern",
+  //   start: "Jul 2023",
+  //   end: "Sep 2023",
+  //   location: "Remote",
+  //   url: "https://beta.coditioning.com"
+  // )[
+  //   - Engineered an end-to-end sandboxed code execution environment with a responsive feedback system, achieving an average response time of 500ms for \~1,000 users
+  //   - Designed and implemented REST API and message queue system, ensuring efficient handling of code submissions.
+  // ]
 
   #experience(
     company: "HydraX",
@@ -158,20 +164,20 @@
     - Migrated legacy AWS resources & CI/CD to infrastructure-as-code, for private digital exchanges
   ]
 
-  #experience(
-    company: "K3 Ventures",
-    role: "VC Summer Analyst",
-    start: "Jan 2021",
-    end: "Mar 2021",
-    location: "Singapore",
-    url: "https://www.k3ventures.com/"
-  )[
-    - Developed Python dashboard & webscrapers to gather and analyze IPO stock price trends for VC clients
-  ]
+  // #experience(
+  //   company: "K3 Ventures",
+  //   role: "VC Summer Analyst",
+  //   start: "Jan 2021",
+  //   end: "Mar 2021",
+  //   location: "Singapore",
+  //   url: "https://www.k3ventures.com/"
+  // )[
+  //   - Developed Python dashboard & webscrapers to gather and analyze IPO stock price trends for VC clients
+  // ]
 ]
 
 #section(header: "Skills")[
-  *Languages:* Modern C++ (17-23), C, Rust, Python, SQL, HTML, CSS, Bash \
+  *Languages:* Modern C++ 20, C, Rust, Python, Bash \
   *Technologies:* Docker, Kubernetes, AWS, GCP, FreeRTOS, CMake, Linux, Perf, Git, Grafana, Vim\
   *Coursework focus areas:* Systems Programming, Compilers, Programming Languages \
   // *Roles:* Embedded
