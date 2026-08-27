@@ -85,7 +85,7 @@
 #section(header: "Education")[
   #education(
     school: "National University of Singapore (NUS)",
-    degree: "Bachelor of Engineering (Honours) in Computer Engineering",
+    degree: "Bachelor of Engineering (Honours) in Computer Engineering - 4.1 / 5.0 GPA ",
     graduation: datetime(year: 2025, month: 5, day: 1)
   )[
     - *NUS Engineering Scholar* - Awarded to 50 engineering students in faculty cohort of 1500
@@ -96,27 +96,29 @@
 #section(header: "Experience")[
   #experience(
     company: "Qube Research & Technologies",
-    role: "Software Engineer - Core trading systems",
+    role: "Software Engineer - Core trading systems   [C++20, CMake, Linux (RHEL 7-9), Windows, Python, Bash]",
     start: "Aug 2025",
     end: "Present",
     location: "Hong Kong SAR",
     url: "https://www.qube-rt.com/"
   )[
-    - Development owner of firm-wide C++ margin service computing real-time initial and variation margin across futures and options portfolios on a global event-driven pub/sub infrastructure
-    - Designed what-if margining API enabling CRO and trading desks to compose hypothetical portfolios against live positions, supporting capital deployment decisions and broker dispute resolution
-    - Standardised CMake build system across a multi-service C++ monorepo with presets, modern targets, Python packaging integration; eliminated CI/local config drift and cut Linux builds from 20 to 4 minutes via mold and ccache
-    - Ported and extended cross-platform integration testing harness across Windows and Linux for deterministic simulation of trading system events, enabling automated regression integration testing at scale
-
+    - Development owner of the firm's C++ margin service computing real-time initial margin (SPAN, PRiMe, VaR) for global derivatives and cash-equity portfolios over an event-driven pub/sub mesh, with client libraries in C++, Python and C\#
+    - Redesigned the concurrency model for throughput, sharding contended shared state and moving computation onto an asynchronous, pooled pipeline offloading heavy requests run from the critical path. 
+    - Architected plugin framework for margin calculation engine, to be extensible with runtime configuration for quick build out, growing the service to 3 new exchanges and asset classes that could be independently operated as micro-services
+    - Designed the what-if margining API so the CRO and trading desks can price hypothetical portfolios against live positions, informing capital deployment and broker dispute decisions
+    - Owns the service's automated testing, reproducing a live multi-host trading environment deterministically and checking margin against known-good baselines, turning a manual test plan into continuous regression coverage
+    - Modernized monorepo's Linux and Windows CI onto a shared build configuration with better caching and incremental builds, leveraging CMake presets, CMake driven python packaging, compiler caching set up across development and CI environments; cache-hot rebuilds dropping times \~30 - 60% across the board
+    
     Software Engineer Intern - Core trading systems                           #h(1fr) May 2025 - Aug 2025\
-                                                #h(1fr) Hong Kong SAR\
-    - Profiled and optimized order router C++ microservice components, improving peak throughput from 60,000 to 140,000 trades/s used by event-based traders on Instinet clients
-    - Identified heap allocation bottleneck in FIX message processing hot path; designed and integrated a C++17 PMR-wrapped pool allocator with logarithmic bucket sizing, cutting p99 tail latency by 4x
+                                                // #h(1fr) Hong Kong SAR\
+    - Eliminated a memory-allocation bottleneck on the FIX hot path, cutting allocation CPU from ~24% to ~6% with pooled allocation and fewer page faults by integrating a C++17 PMR-wrapped pool allocator with logarithmic bucket sizing, cutting p99 tail latency by 4x
     - Introduced lightweight service instrumentation and microbenchmarking suite, enabling continuous telemetry collection
+    - Improved parsing performance with cache-friendlier data structures (2 to 9x faster lookups, -68% more inbound throughput), supported by a profiling and benchmarking harness
   ]
   
   #experience(
     company: "Grasshopper",
-    role: "Software Engineer Intern",
+    role: "Software Engineer Intern  [Rust]",
     start: "Sep 2024",
     end: "Feb 2025",
     location: "Singapore",
@@ -129,14 +131,14 @@
   
   #experience(
     company: "Kisi Inc.",
-    role: "Software Engineer I",
+    role: "Software Engineer I - Embedded systems [C, CMake, Python]",
     start: "Feb 2024",
     end: "Aug 2024",
     location: "New York",
     url: "https://www.getkisi.com/"
   )[
-    - Led the transition of 50,000 access control IoT devices to FreeRTOS and a GCP-backed proprietary IoT platform, improving system reliability and scalability
-    - Developed critical firmware components including a thread-safe networking library and encryption module, resulting in an 80% reduction in networking latency and a 100x improvement in encryption/decryption speed
+    // - Led the transition of 50,000 access control IoT devices to FreeRTOS and a GCP-backed proprietary IoT platform, improving system reliability and scalability
+    - Developed critical firmware components including a thread-safe networking library and encryption module, resulting in an 80% reduction in networking latency and a 100x improvement in encryption/decryption speed in native C code.
     // - Collaborated with cross-functional teams to implement embedded telemetry support, enhancing overall system monitoring
   ]
 
@@ -149,18 +151,18 @@
   //   url: "https://beta.coditioning.com"
   // )[
   //   - Engineered an end-to-end sandboxed code execution environment with a responsive feedback system, achieving an average response time of 500ms for \~1,000 users
-  //   - Designed and implemented REST API and message queue system, ensuring efficient handling of code submissions.
+    // - Designed and implemented REST API and message queue system, ensuring efficient handling of code submissions.
   // ]
 
   #experience(
     company: "HydraX",
-    role: "Software Engineer Intern",
+    role: "Software Engineer Intern - Cloud platform team [Python]",
     start: "May 2023",
     end: "Aug 2023",
     location: "Singapore",
     url: "https://www.hydrax.io/"
   )[
-    - Implemented internal cost analysis tools in Kubernetes, improving granularity from cluster to container level, reducing cloud storage costs across various clusters by up to 40%
+    // - Implemented internal cost analysis tools in Kubernetes, improving granularity from cluster to container level, reducing cloud storage costs across various clusters by up to 40%
     - Migrated legacy AWS resources & CI/CD to infrastructure-as-code, for private digital exchanges
   ]
 
