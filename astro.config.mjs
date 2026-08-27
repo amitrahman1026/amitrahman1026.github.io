@@ -1,4 +1,3 @@
-import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import remarkToc from "remark-toc";
@@ -14,7 +13,7 @@ import pagefind from "astro-pagefind";
 export default defineConfig({
   site: "https://amitrahman.me",
   base: "/",
-  integrations: [tailwind(), sitemap(), mdx(), pagefind()],
+  integrations: [sitemap(), mdx(), pagefind()],
   markdown: {
     shikiConfig: {
       theme: "css-variables",
