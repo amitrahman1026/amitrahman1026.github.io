@@ -6,21 +6,13 @@ import Search from "astro-pagefind/components/Search.astro";
   <div
     transition:persist
     id="backdrop"
-    class="bg-[rgba(0, 0, 0, 0.5] invisible fixed left-0 top-0 z-50 flex h-screen w-full justify-center p-6 backdrop-blur-sm"
+    class="bg-black/50 fixed left-0 top-0 z-50 hidden h-screen w-full justify-center p-6 backdrop-blur-sm"
   >
     <div
       id="pagefind-container"
       class="m-0 flex h-fit max-h-[80%] w-full max-w-screen-sm flex-col overflow-auto rounded border border-black/15 bg-neutral-100 p-2 px-4 py-3 shadow-lg dark:border-white/20 dark:bg-neutral-900"
     >
-      <Search
-        id="search"
-        className="pagefind-ui"
-        uiOptions={{
-          showImages: false,
-          excerptLength: 15,
-          resetStyles: false,
-        }}
-      />
+      <Search className="pagefind-ui" />
       <div class="mr-2 pb-1 pt-4 text-right text-xs dark:prose-invert">
         Press <span class="prose text-xs dark:prose-invert"
           ><kbd class="">Esc</kbd></span
@@ -35,20 +27,17 @@ import Search from "astro-pagefind/components/Search.astro";
   const backdrop = document.getElementById("backdrop");
 
   function openPagefind() {
-    const searchDiv = document.getElementById("search");
-    const search = searchDiv.querySelector("input");
+    backdrop?.classList.remove("hidden");
+    backdrop?.classList.add("flex");
+    const searchbox = backdrop?.querySelector("pagefind-searchbox");
     setTimeout(() => {
-      search.focus();
+      searchbox?.focus();
     }, 0);
-    backdrop?.classList.remove("invisible");
-    backdrop?.classList.add("visible");
   }
 
   function closePagefind() {
-    const search = document.getElementById("search");
-    search.value = "";
-    backdrop?.classList.remove("visible");
-    backdrop?.classList.add("invisible");
+    backdrop?.classList.remove("flex");
+    backdrop?.classList.add("hidden");
   }
 
   // open pagefind
@@ -84,6 +73,12 @@ import Search from "astro-pagefind/components/Search.astro";
     if (!event.target.closest("#pagefind-container")) {
       closePagefind();
     }
+  });
+
+  // close pagefind before any page navigation, since #backdrop persists
+  // across astro view transitions and would otherwise stay open
+  document.addEventListener("astro:before-preparation", () => {
+    closePagefind();
   });
 
   // prevent form submission
