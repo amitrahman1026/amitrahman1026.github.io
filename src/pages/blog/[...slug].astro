@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection, render } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/Container.astro";
 import FormattedDate from "@components/FormattedDate.astro";
@@ -14,7 +14,7 @@ export async function getStaticPaths() {
     .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: post,
   }));
 }
@@ -25,7 +25,7 @@ const posts = (await getCollection("blog"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 function getPostIndex(slug: string): number {
-  return posts.findIndex((post) => post.slug === slug);
+  return posts.findIndex((post) => post.id === slug);
 }
 
 function getNextPost(slug: string): Props | null {
@@ -43,7 +43,7 @@ const nextPost = getNextPost(currentPostSlug);
 const prevPost = getPrevPost(currentPostSlug);
 
 const post = Astro.props;
-const { Content, headings } = await post.render();
+const { Content, headings } = await render(post);
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
